@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Interactive Quiz - UK Years 1-6</title>
+<meta name="description" content="Interactive online quizzes for UK primary school children. Maths, English, Science, Reading and Vocabulary for Years 1-6."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23534AB7'/%3E%3Ccircle cx='32' cy='26' r='12' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M32 20 L32 26 L36 30' stroke='white' stroke-width='3.5' stroke-linecap='round'/%3E%3Crect x='22' y='42' width='20' height='5' rx='2.5' fill='white' opacity='.8'/%3E%3C/svg%3E"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#3C3489;--purple-mid:#7F77DD;
+  --teal:#0F6E56;--teal-light:#E1F5EE;--teal-mid:#1D9E75;
+  --amber:#854F0B;--amber-light:#FAEEDA;
+  --blue:#185FA5;--blue-light:#E6F1FB;
+  --coral:#993C1D;--coral-light:#FAECE7;
+  --green:#3B6D11;--green-light:#EAF3DE;
+  --red:#A32D2D;--red-light:#FCEBEB;
+  --text:#1a1a1a;--muted:#6b6b6b;--border:#e0ddd6;
+  --bg:#ffffff;--bg2:#f7f6f2;
+  --radius:12px;--shadow:0 2px 16px rgba(0,0,0,.09);
+}
+@media(prefers-color-scheme:dark){
+  :root{--text:#e8e6df;--muted:#9c9a92;--border:#3a3835;--bg:#1c1b18;--bg2:#252420;
+    --purple-light:#26215C;--teal-light:#04342C;--amber-light:#412402;--blue-light:#042C53;
+    --coral-light:#4A1B0C;--green-light:#173404;--red-light:#501313;}
+}
+body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min-height:100vh;padding:12px}
+.container{max-width:680px;margin:0 auto}
+
+/* ── Header ── */
+.header{display:flex;align-items:center;gap:12px;margin-bottom:16px;background:var(--bg);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow)}
+.logo{width:40px;height:40px;border-radius:10px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo svg{width:24px;height:24px}
+.brand-title{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.3px}
+.brand-sub{font-size:11px;color:var(--muted);font-weight:600;margin-top:1px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.key-status{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:16px;font-size:10px;font-weight:700;border:1.5px solid var(--border);cursor:pointer;background:var(--bg2);color:var(--muted);transition:all .15s}
+.key-status.has-key{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+.key-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+/* ── Screens ── */
+.screen{display:none;animation:fadeIn .25s ease}
+.screen.show{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ── Setup screen ── */
+.setup-card{background:var(--bg);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:12px}
+.section-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);color:var(--muted);background:var(--bg2);transition:all .15s;font-family:"Nunito",sans-serif}
+.pill:hover{border-color:var(--muted)}.pill.active{border-color:var(--purple);background:var(--purple-light);color:var(--purple)}
+.subj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.subj-btn{padding:10px 6px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--border);color:var(--muted);background:var(--bg2);transition:all .15s;font-family:"Nunito",sans-serif;text-align:center;line-height:1.4}
+.subj-btn:hover{border-color:var(--muted)}
+.subj-btn.maths.active{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+.subj-btn.english.active{border-color:var(--blue);background:var(--blue-light);color:var(--blue)}
+.subj-btn.science.active{border-color:var(--amber);background:var(--amber-light);color:var(--amber)}
+.subj-btn.reading.active{border-color:var(--purple);background:var(--purple-light);color:var(--purple)}
+.subj-btn.vocab.active{border-color:var(--coral);background:var(--coral-light);color:var(--coral)}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px;margin-bottom:16px;max-height:260px;overflow-y:auto;padding-right:4px}
+.topic-grid::-webkit-scrollbar{width:4px}.topic-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.topic-card{padding:9px 11px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;background:var(--bg2)}
+.topic-card:hover{border-color:var(--muted)}.topic-card.selected{border-color:var(--purple);background:var(--purple-light)}
+.tc-name{font-size:11px;font-weight:700;color:var(--text);line-height:1.4}
+.tc-yr{font-size:10px;color:var(--muted);margin-top:2px;font-weight:600}
+.opts-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:4px}
+.opt-group{display:flex;flex-direction:column;gap:4px}
+.opt-group label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.opt-group input[type=text]{padding:7px 11px;border-radius:7px;border:1.5px solid var(--border);background:var(--bg2);color:var(--text);font-size:13px;font-family:"Nunito",sans-serif;font-weight:600;width:160px}
+.opt-group input:focus,.opt-group select:focus{outline:none;border-color:var(--purple)}
+.opt-group select{padding:7px 11px;border-radius:7px;border:1.5px solid var(--border);background:var(--bg2);color:var(--text);font-size:13px;font-family:"Nunito",sans-serif;font-weight:600;cursor:pointer}
+.start-btn{width:100%;padding:14px;border-radius:10px;font-size:16px;font-weight:900;cursor:pointer;border:none;background:var(--purple);color:#fff;transition:all .15s;font-family:"Nunito",sans-serif;letter-spacing:-.2px;margin-top:14px}
+.start-btn:hover:not(:disabled){background:var(--purple-dark);transform:translateY(-1px)}
+.start-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── Loading screen ── */
+.loading-screen{background:var(--bg);border-radius:var(--radius);padding:48px 20px;text-align:center;box-shadow:var(--shadow)}
+.loading-screen p{font-size:14px;color:var(--muted);margin-top:16px}
+.spinner-lg{display:inline-block;width:40px;height:40px;border:3.5px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-dots{display:inline-flex;gap:6px;margin-top:12px}
+.loading-dots span{width:8px;height:8px;border-radius:50%;background:var(--purple);animation:bounce 1.2s ease infinite}
+.loading-dots span:nth-child(2){animation-delay:.2s}
+.loading-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+/* ── Quiz screen ── */
+.quiz-header{background:var(--bg);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);margin-bottom:12px}
+.quiz-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.quiz-title{font-size:14px;font-weight:800;color:var(--text)}
+.quiz-info{font-size:11px;color:var(--muted);font-weight:600}
+.progress-bar{height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.progress-fill{height:100%;background:var(--purple);border-radius:4px;transition:width .4s ease}
+.q-counter{font-size:12px;font-weight:700;color:var(--purple);margin-top:6px;text-align:right}
+
+.question-card{background:var(--bg);border-radius:var(--radius);padding:22px 20px;box-shadow:var(--shadow);margin-bottom:12px}
+.q-number{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.q-text{font-size:18px;font-weight:800;color:var(--text);line-height:1.5;margin-bottom:20px}
+.q-hint{font-size:12px;color:var(--muted);margin-bottom:20px;font-style:italic;background:var(--bg2);padding:8px 12px;border-radius:8px;border-left:3px solid var(--purple-mid);display:none}
+.q-hint.show{display:block}
+.hint-btn{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--purple-mid);background:transparent;color:var(--purple);font-family:"Nunito",sans-serif;margin-bottom:14px;transition:all .15s;display:flex;align-items:center;gap:6px}
+.hint-btn:hover{background:var(--purple-light)}
+.hint-btn.used{border-color:var(--border);color:var(--muted);cursor:default}
+
+/* Answer options */
+.options-grid{display:flex;flex-direction:column;gap:10px}
+.option-btn{width:100%;padding:14px 16px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:2px solid var(--border);background:var(--bg2);color:var(--text);text-align:left;transition:all .15s;font-family:"Nunito",sans-serif;line-height:1.4}
+.option-btn:hover:not(:disabled){border-color:var(--purple-mid);background:var(--purple-light);transform:translateX(3px)}
+.option-btn:disabled{cursor:default;transform:none}
+.option-btn.correct{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+.option-btn.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.option-btn.reveal{border-color:var(--teal);background:var(--teal-light);color:var(--teal);opacity:.7}
+
+/* Text input answer */
+.text-answer-wrap{display:flex;flex-direction:column;gap:10px}
+.text-answer-input{width:100%;padding:14px 16px;border-radius:10px;font-size:16px;font-weight:700;border:2px solid var(--border);background:var(--bg2);color:var(--text);font-family:"Nunito",sans-serif;transition:all .15s}
+.text-answer-input:focus{outline:none;border-color:var(--purple)}
+.text-answer-input.correct{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+.text-answer-input.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.submit-ans-btn{padding:13px;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;border:none;background:var(--purple);color:#fff;font-family:"Nunito",sans-serif;transition:all .15s}
+.submit-ans-btn:hover:not(:disabled){background:var(--purple-dark)}
+.submit-ans-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* Feedback */
+.feedback-box{border-radius:10px;padding:14px 16px;margin-top:14px;font-size:13px;line-height:1.7;border:1.5px solid}
+.feedback-box.correct{background:var(--teal-light);border-color:var(--teal-mid);color:var(--teal)}
+.feedback-box.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.feedback-box strong{font-weight:800;font-size:14px;display:block;margin-bottom:4px}
+.feedback-box .correct-ans{font-weight:700;margin-top:6px;padding:6px 10px;background:rgba(255,255,255,.5);border-radius:6px;font-size:13px}
+
+.next-btn{width:100%;padding:14px;border-radius:10px;font-size:16px;font-weight:900;cursor:pointer;border:none;background:var(--purple);color:#fff;transition:all .15s;font-family:"Nunito",sans-serif;margin-top:12px}
+.next-btn:hover{background:var(--purple-dark);transform:translateY(-1px)}
+
+/* ── Results screen ── */
+.results-card{background:var(--bg);border-radius:var(--radius);padding:24px 20px;box-shadow:var(--shadow);margin-bottom:12px}
+.results-hero{text-align:center;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.results-badge{font-size:56px;margin-bottom:10px;line-height:1}
+.results-title{font-size:22px;font-weight:900;color:var(--text);margin-bottom:4px}
+.results-sub{font-size:13px;color:var(--muted);font-weight:600}
+.score-ring-wrap{display:flex;justify-content:center;margin:16px 0}
+.score-ring{position:relative;width:120px;height:120px}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-bg{fill:none;stroke:var(--border);stroke-width:10}
+.score-ring-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.score-ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-pct{font-size:28px;font-weight:900;color:var(--text)}
+.score-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.stat-box{text-align:center;padding:12px 8px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)}
+.stat-num{font-size:24px;font-weight:900;color:var(--text)}
+.stat-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.stat-box.good .stat-num{color:var(--teal)}
+.stat-box.bad .stat-num{color:var(--red)}
+
+.results-section-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.review-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.review-item{border-radius:10px;padding:14px;border:1.5px solid var(--border)}
+.review-item.correct-item{border-color:var(--teal-mid);background:var(--teal-light)}
+.review-item.wrong-item{border-color:var(--red);background:var(--red-light)}
+.review-q{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.5}
+.review-row{display:flex;align-items:flex-start;gap:8px;font-size:12px;margin-top:4px;line-height:1.5}
+.review-tick{font-size:14px;flex-shrink:0;margin-top:1px}
+.review-ans{font-weight:700}
+.review-expl{font-size:11px;color:var(--muted);margin-top:6px;font-style:italic;line-height:1.6;padding:6px 8px;background:rgba(255,255,255,.5);border-radius:6px}
+
+.improve-box{background:var(--purple-light);border:1.5px solid var(--purple-mid);border-radius:10px;padding:14px 16px;margin-bottom:20px}
+.improve-title{font-size:13px;font-weight:800;color:var(--purple);margin-bottom:8px}
+.improve-list{display:flex;flex-direction:column;gap:5px}
+.improve-item{font-size:12px;color:var(--purple-dark);display:flex;gap:8px;line-height:1.5}
+.improve-item::before{content:"→";flex-shrink:0;font-weight:800}
+
+.results-btns{display:flex;flex-direction:column;gap:10px}
+.res-btn{width:100%;padding:13px;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;border:2px solid var(--border);background:var(--bg2);color:var(--text);font-family:"Nunito",sans-serif;transition:all .15s}
+.res-btn:hover{border-color:var(--muted)}
+.res-btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.res-btn.primary:hover{background:var(--purple-dark)}
+
+/* ── Modal ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg);border-radius:16px;padding:24px;max-width:460px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.25)}
+.modal-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:8px}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7}
+.modal-sub a{color:var(--purple);text-decoration:none;font-weight:700}
+.modal-steps{margin:0 0 14px;display:flex;flex-direction:column;gap:8px}
+.modal-step{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.6}
+.step-num{width:19px;height:19px;border-radius:50%;background:var(--purple-light);color:var(--purple);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.modal-input{width:100%;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg2);color:var(--text);font-size:14px;font-family:"Nunito",sans-serif;font-weight:600;margin-bottom:6px}
+.modal-input:focus{outline:none;border-color:var(--purple)}
+.modal-hint{font-size:11px;color:var(--muted);margin-bottom:14px}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.modal-btn{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--bg2);color:var(--muted);font-family:"Nunito",sans-serif;transition:all .15s}
+.modal-btn:hover{border-color:var(--muted)}
+.modal-btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.modal-btn.primary:hover{background:var(--purple-dark)}
+.modal-btn.danger{background:var(--coral-light);border-color:var(--coral);color:var(--coral)}
+
+.footer{text-align:center;font-size:11px;color:var(--muted);margin-top:16px;padding-bottom:8px}
+.footer a{color:var(--purple);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal-overlay" id="key-modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Set up your API key</div>
+    <div class="modal-sub" id="modal-sub">Your free Anthropic API key powers unique quiz questions every time.</div>
+    <div class="modal-steps" id="modal-steps">
+      <div class="modal-step"><div class="step-num">1</div><div>Go to <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> and sign up free</div></div>
+      <div class="modal-step"><div class="step-num">2</div><div>Click <strong>API Keys</strong> then <strong>+ Create Key</strong></div></div>
+      <div class="modal-step"><div class="step-num">3</div><div>Copy the key immediately - starts with <code>sk-ant-</code></div></div>
+      <div class="modal-step"><div class="step-num">4</div><div>Paste below. New accounts get <strong>free credits</strong></div></div>
+    </div>
+    <input type="password" class="modal-input" id="modal-key-input" placeholder="sk-ant-api03-..." autocomplete="off"/>
+    <div class="modal-hint">Saved in your browser only. Change or remove anytime.</div>
+    <div class="modal-btns">
+      <button class="modal-btn danger" id="modal-remove-btn" onclick="removeKey()" style="display:none">Remove</button>
+      <button class="modal-btn" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveKey()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="10" r="5" stroke="white" stroke-width="2"/>
+        <path d="M12 7 L12 10 L14 12" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+        <rect x="7" y="17" width="10" height="3" rx="1.5" fill="white" opacity=".8"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-title">Interactive Quiz</div>
+      <div class="brand-sub">UK National Curriculum - Years 1 to 6</div>
+    </div>
+    <div class="header-right">
+      <div class="key-status" id="key-status-btn" onclick="openModal()">
+        <div class="key-dot"></div>
+        <span id="key-status-label">Add key</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP SCREEN -->
+  <div class="screen show" id="screen-setup">
+    <div class="setup-card">
+      <div class="section-label">Year group</div>
+      <div class="pill-row" id="year-pills">
+        <span class="pill" data-year="1">Year 1</span>
+        <span class="pill" data-year="2">Year 2</span>
+        <span class="pill" data-year="3">Year 3</span>
+        <span class="pill active" data-year="4">Year 4</span>
+        <span class="pill" data-year="5">Year 5</span>
+        <span class="pill" data-year="6">Year 6</span>
+      </div>
+
+      <div class="section-label">Subject</div>
+      <div class="subj-grid">
+        <button class="subj-btn maths active" data-subj="Maths">&#10133;<br/>Maths</button>
+        <button class="subj-btn english" data-subj="English">&#128216;<br/>English</button>
+        <button class="subj-btn science" data-subj="Science">&#128300;<br/>Science</button>
+        <button class="subj-btn reading" data-subj="Reading">&#128214;<br/>Reading</button>
+        <button class="subj-btn vocab" data-subj="Vocabulary">&#129521;<br/>Vocab</button>
+      </div>
+
+      <div class="section-label" id="topic-label">Topic - Year 4 - Maths</div>
+      <div class="topic-grid" id="topic-grid"></div>
+
+      <div class="opts-row">
+        <div class="opt-group">
+          <label>Your name</label>
+          <input type="text" id="child-name" placeholder="e.g. Amara" maxlength="30"/>
+        </div>
+        <div class="opt-group">
+          <label>Questions</label>
+          <select id="q-count">
+            <option value="5">5 quick</option>
+            <option value="10" selected>10 standard</option>
+            <option value="15">15 extended</option>
+          </select>
+        </div>
+        <div class="opt-group">
+          <label>Difficulty</label>
+          <select id="difficulty">
+            <option value="gentle">Gentle</option>
+            <option value="standard" selected>Standard</option>
+            <option value="challenging">Challenging</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="start-btn" id="start-btn" disabled>Start Quiz &#9654;</button>
+    </div>
+    <div class="footer">
+      Also want printable worksheets?
+      <a href="index.html">Open Worksheet Generator &rarr;</a>
+    </div>
+  </div>
+
+  <!-- LOADING SCREEN -->
+  <div class="screen" id="screen-loading">
+    <div class="loading-screen">
+      <div class="spinner-lg"></div>
+      <p id="loading-msg">Generating your quiz questions...</p>
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div class="screen" id="screen-quiz">
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <div class="quiz-title" id="quiz-title"></div>
+        <div class="quiz-info" id="quiz-info"></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="q-counter" id="q-counter"></div>
+    </div>
+    <div class="question-card">
+      <div class="q-number" id="q-number"></div>
+      <div class="q-text" id="q-text"></div>
+      <button class="hint-btn" id="hint-btn" onclick="revealHint()" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><text x="7" y="11" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">?</text></svg>
+        Show hint
+      </button>
+      <div class="q-hint" id="q-hint"></div>
+      <div id="answer-area"></div>
+      <div class="feedback-box" id="feedback-box" style="display:none"></div>
+      <button class="next-btn" id="next-btn" style="display:none" onclick="nextQuestion()">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div class="screen" id="screen-results">
+    <div class="results-card">
+      <div class="results-hero">
+        <div class="results-badge" id="results-badge">&#127881;</div>
+        <div class="results-title" id="results-title">Well done!</div>
+        <div class="results-sub" id="results-sub"></div>
+        <div class="score-ring-wrap">
+          <div class="score-ring">
+            <svg viewBox="0 0 120 120" width="120" height="120">
+              <circle class="score-ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="score-ring-fill" id="score-ring-fill" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314"/>
+            </svg>
+            <div class="score-ring-text">
+              <div class="score-pct" id="score-pct">0%</div>
+              <div class="score-label">Score</div>
+            </div>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-box good"><div class="stat-num" id="stat-correct">0</div><div class="stat-lbl">Correct</div></div>
+          <div class="stat-box bad"><div class="stat-num" id="stat-wrong">0</div><div class="stat-lbl">To review</div></div>
+          <div class="stat-box"><div class="stat-num" id="stat-total">0</div><div class="stat-lbl">Total</div></div>
+        </div>
+      </div>
+
+      <div class="results-section-title">Question review</div>
+      <div class="review-list" id="review-list"></div>
+
+      <div class="improve-box" id="improve-box" style="display:none">
+        <div class="improve-title">&#128161; Areas to focus on</div>
+        <div class="improve-list" id="improve-list"></div>
+      </div>
+
+      <div class="results-btns">
+        <button class="res-btn primary" onclick="retryQuiz()">Try again - same topic &#8635;</button>
+        <button class="res-btn" onclick="newQuiz()">Choose a different topic &#8592;</button>
+      </div>
+    </div>
+    <div class="footer">
+      Want a printable version? <a href="index.html">Open Worksheet Generator &rarr;</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CURRICULUM={Maths:{1:["Counting to 20","Counting to 100","Ordering numbers","Odd and even numbers","Addition to 10","Addition to 20","Subtraction to 10","Subtraction to 20","Number bonds to 10","Number bonds to 20","Skip counting (2s, 5s, 10s)","2D shapes","3D shapes","Measuring length","Comparing lengths and weights","Time (o'clock, half past)","Money (coins)","Simple patterns","Tally charts"],2:["Place value to 100","Counting in 2s, 5s and 10s","Ordering & comparing numbers","Addition to 100","Subtraction to 100","Addition with regrouping","Subtraction with regrouping","Multiplication (2s, 5s, 10s)","Division basics","Fractions (halves, quarters, thirds)","Measurement (cm and m)","Measurement (kg and g)","Measurement (litres and ml)","Money (pounds and pence)","Telling time (quarter past, quarter to)","2D and 3D shapes","Pictograms and tally charts","Temperature","Word problems"],3:["Place value to 1000","Ordering and rounding to 100","Roman numerals to XII","Written addition","Written subtraction","Multiplication tables (3, 4, 8)","Multiplying by 10 and 100","Division with remainders","Mental maths strategies","Fractions on a number line","Equivalent fractions","Adding and subtracting fractions","Perimeter of shapes","Measuring length (mm, cm, m, km)","Telling time (minutes)","Angles (right angles, acute, obtuse)","Bar charts and pictograms","Horizontal and vertical lines","Word problems"],4:["Place value to 10,000","Rounding to nearest 10, 100, 1000","Roman numerals to C","Multiply & divide by 6, 7, 9, 11, 12","Written multiplication (2-digit)","Long division","Factors and multiples","Equivalent fractions","Adding and subtracting fractions","Decimals (tenths and hundredths)","Rounding decimals","Fractions to decimals","Area of rectangles","Perimeter of rectilinear shapes","Coordinates (first quadrant)","Line graphs and bar charts","Acute, obtuse and reflex angles","Symmetry","Converting units of measure","Word problems"],5:["Place value to 1,000,000","Negative numbers","Roman numerals to 1000","Long multiplication (4-digit by 2-digit)","Long division (4-digit by 1-digit)","Multiples, factors and prime numbers","Square and cube numbers","Fractions (add, subtract, multiply, divide)","Mixed numbers and improper fractions","Percentages of amounts","Decimals to 3 decimal places","Percentages, fractions, decimals","Perimeter and area (compound shapes)","Volume of cuboids","Converting metric units","Angles in triangles and quadrilaterals","Reflection and translation","Line graphs","Mean (average)","Word problems"],6:["Place value and rounding","Negative numbers and integers","Order of operations (BODMAS)","Long multiplication and division","Factors, multiples, primes","Fractions: all operations","Ratio and proportion","Percentages, decimals, fractions","Algebra: expressions and equations","Algebra: formulae and sequences","Area of triangles, parallelograms, circles","Volume of 3D shapes","Angles: missing angles, polygons","Coordinates (4 quadrants)","Reflection, translation, rotation","Mean, median, mode and range","Pie charts and line graphs","Probability","3D shape nets","Word problems"]},English:{1:["Letters and the alphabet","Phonics: CVC words","Phonics: consonant blends","Phonics: long vowel sounds","Sight words (common words)","Rhyming words","Nouns (people, places, things)","Verbs (doing words)","Adjectives (describing words)","Capital letters and full stops","Question marks and exclamation marks","Simple sentences","Joining words: and, but, so","Sequencing a story","Days of the week and months","Handwriting practice","Alphabetical order"],2:["Nouns: common and proper","Verbs: present and past tense","Adjectives and expanded noun phrases","Adverbs","Pronouns (I, he, she, they)","Conjunctions (because, when, if, that)","Compound words","Contractions (don't, can't, it's)","Suffixes (-ing, -ed, -er, -est)","Prefixes (un-, dis-)","Punctuation: commas in lists","Punctuation: apostrophes for omission","Question marks and exclamation marks","Sentences: statements and questions","Speech bubbles and dialogue","Reading comprehension: finding information","Alliteration and similes","Story writing"],3:["Nouns: collective nouns","Verbs: present perfect tense","Adjectives: comparative and superlative","Adverbs of time, place and manner","Prepositions","Conjunctions: subordinating","Paragraphs","Speech marks (inverted commas)","Apostrophes for possession","Prefixes (un-, dis-, mis-, re-, pre-)","Suffixes (-tion, -sion, -ous, -ly)","Word families and root words","Homophones","Synonyms and antonyms","Reading comprehension: inference","Non-fiction: explanation texts","Poetry: personification","Opinion writing"],4:["Fronted adverbials","Pronouns: relative pronouns (who, which, that)","Determiners (a, an, the)","Standard English vs informal English","Modal verbs (could, should, would, might)","Possessive pronouns","Noun phrases and expanded noun phrases","Adverbial phrases","Homophones and near-homophones","Prefixes: meaning changing","Punctuation: commas after fronted adverbials","Punctuation: inverted commas for speech","Apostrophes: singular and plural possession","Paragraphs: organising writing","Poetry: figurative language and imagery","Persuasive writing","Formal vs informal writing","Reading comprehension: author's purpose","Editing and improving writing"],5:["Relative clauses (defining and non-defining)","Modal verbs: degrees of possibility","Active and passive voice","Direct and reported speech","Subjunctive mood","Parenthesis: brackets, dashes, commas","Semi-colons and colons","Hyphens","Word roots: Latin and Greek","Prefixes and suffixes: advanced","Synonyms, antonyms and connotations","Figurative language: metaphor, simile, personification","Sentence types: simple, compound, complex","Cohesion: adverbials and pronouns","Narrative writing: atmosphere and tension","Persuasive writing: rhetoric","Reading comprehension: themes and conventions","Formal writing: letters and reports"],6:["Subjunctive mood in formal writing","Passive voice for effect","Cohesion and linking paragraphs","Complex sentence structures","Vocabulary: etymology and morphology","Punctuation: all marks for effect","Rhetoric and argument techniques","Narrative techniques: viewpoint and voice","Descriptive writing","Formal register","Grammar revision: all word classes","Sentence variety for effect","Reading comprehension: comparing texts","Reading comprehension: language analysis","Poetry analysis","Spelling strategies","Proofreading and editing"]},Science:{1:["Plants: parts of a plant","Plants: what plants need to grow","Animals: common animals","Animals and their young","Animals: what animals eat","Humans: parts of the body","The five senses","Materials: everyday materials","Materials: properties (hard, soft, rough)","Seasonal changes: spring and summer","Seasonal changes: autumn and winter","Living and non-living things","Sorting and grouping objects","Weather and seasons","Day and night"],2:["Plants: life cycle of a plant","Plants: growing from seeds","Animals: life cycles","Animals: basic needs (food, water, shelter)","Animals: habitats and food chains","Humans: healthy eating","Humans: exercise and hygiene","Materials: uses of materials","Materials: changing materials (heating and cooling)","Materials: floating and sinking","Light and dark: sources of light","Light and dark: shadows","Sound: sources of sound","Scientists and inventors","Microhabitats"],3:["Rocks: types of rock (igneous, sedimentary, metamorphic)","Rocks: fossils","Soil types","Plants: functions of parts (root, stem, leaf, flower)","Plants: pollination and seed dispersal","Animals: skeletons and muscles (vertebrates)","Animals: invertebrates","Animals: nutrition and digestion","Forces: pushing and pulling","Forces: magnets","Light: reflection and shadows","Light: how we see things","Sound: pitch and volume","Sound: how sound travels","States of matter: solids, liquids, gases"],4:["States of matter: changing state","States of matter: water cycle","Electricity: circuits","Electricity: conductors and insulators","Electricity: circuit diagrams","Sound: vibrations and pitch","Sound: how sound travels through materials","Animals: human digestion","Animals: teeth and diet","Animals: food chains and webs","Living things: classifying plants","Living things: classifying animals","Habitats: local habitats","Habitats: impact of humans on environments","Grouping living things"],5:["Earth and Space: the Solar System","Earth and Space: day and night (Earth's rotation)","Earth and Space: moon phases","Earth and Space: the Sun and stars","Forces: gravity","Forces: air resistance and water resistance","Forces: friction","Forces: levers, pulleys and gears","Animals: life cycles of mammals","Animals: life cycles of insects and amphibians","Animals: human reproduction and aging","Properties of materials: conductors and insulators","Properties of materials: solubility","Reversible changes (dissolving, melting)","Irreversible changes (burning, rusting)","Separating mixtures (filtering, evaporation)"],6:["Electricity: voltage and brightness","Electricity: circuit symbols","Light: reflection off surfaces","Light: refraction","Light: how the eye sees","Evolution: Charles Darwin and natural selection","Inheritance and variation","Adaptation: animals and plants","Classification of living things (Carl Linnaeus)","Microorganisms: bacteria, viruses, fungi","Microorganisms: useful and harmful","Circulatory system: heart and blood vessels","Circulatory system: functions of blood","Diet, exercise and health","Scientific enquiry: variables and fair testing","Scientific enquiry: interpreting results","Food chains and ecosystems"]},Reading:{1:["Phonics: matching letters to sounds","Sight words: set 1","Sight words: set 2","Reading simple sentences","Understanding a short story","Characters in stories","Story settings","Predicting what happens next","Sequencing events","Answering questions about a text","Rhyme and rhythm in poems","Non-fiction: labels and captions","Word meanings from pictures","Re-reading for understanding"],2:["Reading comprehension: finding information","Characters: how they feel and why","Story settings: describing words","Plot: beginning, middle and end","Predicting outcomes","Cause and effect in stories","Comparing characters","Fact vs fiction","Main idea of a paragraph","Sequencing events","Context clues: word meanings","Reading non-fiction: contents and index","Poems: rhyme and pattern","Answering in full sentences","Personal response to texts"],3:["Inference: reading between the lines","Author's choice of words","Characters: thoughts and feelings","Story structure: problem and resolution","Compare and contrast two texts","Main idea and supporting details","Fact vs opinion","Context clues: unfamiliar words","Non-fiction: headings and subheadings","Non-fiction: diagrams and captions","Poetry: language and imagery","Summarising a paragraph","Identifying the purpose of a text","Point of view: first and third person","Cause and effect"],4:["Inference and deduction","Author's viewpoint and purpose","Language for effect: metaphor and simile","Identifying themes","Characters: motivation and development","Comparing how information is presented","Evaluating evidence in non-fiction","Figurative language in poetry","Summarising key points","Skimming and scanning","Fact, opinion and bias","Retrieval: finding specific information","Reading aloud with expression","Making connections between texts","Newspaper articles"],5:["Analysing language choices","Themes and conventions in fiction","Viewpoint and narrative voice","Evaluating an author's argument","Comparing two non-fiction texts","Reading comprehension: formal texts","Implicit meaning and subtext","Figurative language: extended metaphor","Tone and atmosphere in texts","Persuasive techniques in media","Poetry: structure and form","Classic fiction: understanding older texts","Reading for pleasure: book reviews","Research skills: using multiple sources"],6:["Analysing writer's craft","Comparing texts from different periods","Evaluating viewpoint and bias","Themes across multiple texts","Close reading: annotating a text","Poetry: comparing poems","Understanding genre conventions","Irony and satire","Reading comprehension: 11-plus style","Retrieval and inference combined","Summarising and synthesising","Critical reading: fact-checking","Reading non-fiction reports","Author's tone and register","Reading for argument: identifying rhetorical devices"]},Vocabulary:{1:["Alphabet and alphabetical order","Matching words to pictures","Compound words (basic)","Opposites (antonyms)","Words that sound the same (homophones)","Colour words","Number words (one to twenty)","Days of the week","Months of the year","Action words (verbs)","Describing words (adjectives)","Naming words (nouns)","Word families: -at, -an, -en","Word families: -og, -ug, -ig","Seasonal vocabulary"],2:["Synonyms (words with similar meanings)","Antonyms (words with opposite meanings)","Homophones (their, there, they're)","Compound words","Prefixes: un- and dis-","Suffixes: -ful, -less, -ness","Word families","Vocabulary: weather words","Vocabulary: animal words","Vocabulary: food and cooking","Vocabulary: feelings and emotions","Similes (as fast as...)","Onomatopoeia","Alliteration","Dictionary skills"],3:["Prefixes: mis-, re-, pre-","Suffixes: -tion, -sion","Homophones (advanced)","Words with silent letters","Word roots: common Latin roots","Multiple meaning words","Formal and informal vocabulary","Vocabulary: science words","Vocabulary: geography words","Idioms and their meanings","Collective nouns","Abstract nouns","Dictionary and thesaurus skills","Expanding vocabulary: descriptive words","Shades of meaning"],4:["Word roots: Greek and Latin","Prefixes: adding meaning","Suffixes: -ous, -ious, -eous","Synonyms: precise word choice","Connotations: positive and negative","Figurative language vocabulary","Technical vocabulary: maths","Technical vocabulary: science","Homophones and near-homophones","Words often confused (affect/effect, practice/practise)","Vocabulary in context","Formal vocabulary","Informal vocabulary and slang","Etymology: word origins","Expanding descriptive vocabulary"],5:["Etymology: Latin and Greek roots","Vocabulary for persuasion","Vocabulary for analysis","Words often confused (further/farther, who/whom)","Rare and interesting words","Domain-specific vocabulary: history","Domain-specific vocabulary: geography","Proverbs and their meanings","Idioms in context","Figurative language: extended","Words from other languages","Vocabulary building: academic words","Connotation vs denotation","Precision in word choice","Words and their origins"],6:["Advanced synonyms and antonyms","Words of Greek origin","Words of Latin origin","Words of French origin","Portmanteau words and neologisms","Technical and subject-specific vocabulary","Vocabulary for debate and argument","Rhetorical vocabulary","Literary terms (protagonist, antagonist, theme, motif)","Words easily confused: advanced","Formal register vocabulary","Vocabulary in SATs-style questions","Spelling high-frequency words","Vocabulary for effect in writing"]}};
+
+let selYear=4,selSubj="Maths",selTopic=null;
+let questions=[],currentQ=0,answers=[],score=0;
+let quizParams={};
+
+// ── API Key ───────────────────────────────────────────────────────
+function getApiKey(){return localStorage.getItem("ws-api-key")||"";}
+function openModal(){
+  const has=getApiKey();
+  document.getElementById("modal-key-input").value="";
+  document.getElementById("modal-remove-btn").style.display=has?"block":"none";
+  document.getElementById("modal-title").textContent=has?"Change API key":"Set up your API key";
+  document.getElementById("modal-steps").style.display=has?"none":"flex";
+  document.getElementById("modal-sub").textContent=has?"Paste a new key below, or remove it.":"Your free API key powers unique quiz questions every time. Stored only in your browser.";
+  document.getElementById("key-modal").classList.add("open");
+  if(!has) setTimeout(()=>document.getElementById("modal-key-input").focus(),100);
+}
+function closeModal(){document.getElementById("key-modal").classList.remove("open");}
+function saveKey(){
+  const v=document.getElementById("modal-key-input").value.trim();
+  if(!v){alert("Please paste your API key.");return;}
+  if(!v.startsWith("sk-ant-")){alert("API keys start with sk-ant-");return;}
+  localStorage.setItem("ws-api-key",v);closeModal();updateKeyUI();
+}
+function removeKey(){
+  if(confirm("Remove your API key?")){localStorage.removeItem("ws-api-key");closeModal();updateKeyUI();}
+}
+function updateKeyUI(){
+  const has=!!getApiKey();
+  document.getElementById("key-status-btn").className="key-status"+(has?" has-key":"");
+  document.getElementById("key-status-label").textContent=has?"Key active":"Add key";
+}
+document.getElementById("key-modal").addEventListener("click",e=>{if(e.target===e.currentTarget)closeModal();});
+
+// ── Setup UI ──────────────────────────────────────────────────────
+function buildTopics(){
+  const grid=document.getElementById("topic-grid");
+  const topics=CURRICULUM[selSubj][selYear]||[];
+  grid.innerHTML="";selTopic=null;document.getElementById("start-btn").disabled=true;
+  document.getElementById("topic-label").textContent=`Topic - Year ${selYear} - ${selSubj}`;
+  topics.forEach(t=>{
+    const card=document.createElement("div");card.className="topic-card";
+    card.innerHTML=`<div class="tc-name">${t}</div><div class="tc-yr">Year ${selYear}</div>`;
+    card.onclick=()=>{document.querySelectorAll(".topic-card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");selTopic=t;document.getElementById("start-btn").disabled=false;};
+    grid.appendChild(card);
+  });
+}
+document.querySelectorAll(".pill").forEach(p=>{p.onclick=()=>{document.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));p.classList.add("active");selYear=parseInt(p.dataset.year);buildTopics();};});
+document.querySelectorAll(".subj-btn").forEach(b=>{b.onclick=()=>{document.querySelectorAll(".subj-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");selSubj=b.dataset.subj;buildTopics();};});
+document.getElementById("start-btn").onclick=startQuiz;
+
+// ── Screen management ─────────────────────────────────────────────
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("show"));document.getElementById("screen-"+id).classList.add("show");window.scrollTo({top:0,behavior:"smooth"});}
+
+// ── Start Quiz ────────────────────────────────────────────────────
+async function startQuiz(){
+  const apiKey=getApiKey();
+  const qCount=parseInt(document.getElementById("q-count").value);
+  const difficulty=document.getElementById("difficulty").value;
+  const childName=document.getElementById("child-name").value.trim();
+  quizParams={selYear,selSubj,selTopic,qCount,difficulty,childName};
+
+  showScreen("loading");
+  const msgs=["Crafting your questions...","Making them interesting...","Almost ready!"];
+  let mi=0;
+  const msgInterval=setInterval(()=>{document.getElementById("loading-msg").textContent=msgs[mi%msgs.length];mi++;},2000);
+
+  if(!apiKey){
+    clearInterval(msgInterval);
+    // Free mode: generate questions locally without API
+    questions=buildFreeQuestions(selSubj,selTopic,selYear,qCount,difficulty);
+    startQuizFlow();
+    return;
+  }
+
+  const diffMap={gentle:"gentle and confidence-building, great for beginners",standard:"standard UK National Curriculum level",challenging:"stretching and challenging, above expected level"};
+  const prompt=`You are generating an interactive multiple-choice quiz for a Year ${selYear} UK pupil.
+Subject: ${selSubj} | Topic: ${selTopic} | Questions: ${qCount} | Difficulty: ${diffMap[difficulty]}
+
+Return ONLY a valid JSON array. No markdown, no explanation, just the JSON.
+
+Format:
+[
+  {
+    "question": "The question text here",
+    "type": "mcq",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correct": 0,
+    "explanation": "Brief explanation of why this is correct and what to remember",
+    "hint": "A gentle hint if they are stuck (1 sentence)"
+  }
+]
+
+Rules:
+- "correct" is the 0-based index of the correct option in the "options" array
+- All 4 options must be plausible - wrong answers should be common mistakes, not obviously wrong
+- Questions must be age-appropriate for Year ${selYear} (age ${5+selYear}-${6+selYear})
+- Progress from easier to harder across the ${qCount} questions
+- Use fun real-world contexts (food, sport, animals, space, gaming)
+- Explanations should be encouraging and educational (1-2 sentences)
+- For Maths: include the working or method in the explanation
+- Vary question styles: some straightforward, some word problems, some "which of these..."
+- Do NOT include the word "correct" or give away the answer in the question text`;
+
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:3000,messages:[{role:"user",content:prompt}]})
+    });
+    const data=await res.json();
+    clearInterval(msgInterval);
+    if(data.error)throw new Error(data.error.message);
+    const raw=data.content?.find(b=>b.type==="text")?.text||"[]";
+    const clean=raw.replace(/```json|```/g,"").trim();
+    questions=JSON.parse(clean);
+    if(!Array.isArray(questions)||questions.length===0)throw new Error("No questions returned");
+    startQuizFlow();
+  }catch(e){
+    clearInterval(msgInterval);
+    // Fallback to free questions on error
+    questions=buildFreeQuestions(selSubj,selTopic,selYear,qCount,difficulty);
+    startQuizFlow();
+  }
+}
+
+// ── Free question builder (no API needed) ─────────────────────────
+function buildFreeQuestions(subj,topic,year,count,diff){
+  const pools={
+    Maths:[
+      {question:"What is 7 + 8?",options:["13","14","15","16"],correct:2,explanation:"7 + 8 = 15. Count on from 7: 8, 9, 10, 11, 12, 13, 14, 15.",hint:"Try counting up from 7 eight times."},
+      {question:"What is 4 × 6?",options:["20","22","24","26"],correct:2,explanation:"4 × 6 = 24. Think of it as 4 groups of 6, or 6 + 6 + 6 + 6.",hint:"Try skip counting in 6s: 6, 12, 18, 24."},
+      {question:"What is 48 ÷ 6?",options:["6","7","8","9"],correct:2,explanation:"48 ÷ 6 = 8. The 6 times table: 6×8=48.",hint:"Think about which number in the 6 times table equals 48."},
+      {question:"What is the value of the digit 5 in 352?",options:["5","50","500","5000"],correct:1,explanation:"In 352, the digit 5 is in the tens column, so it has a value of 50.",hint:"Look at which column the 5 sits in: hundreds, tens or ones?"},
+      {question:"Round 347 to the nearest 100.",options:["300","400","350","340"],correct:0,explanation:"347 rounded to the nearest 100 is 300. The tens digit is 4, which is less than 5, so we round down.",hint:"Look at the tens digit. Is it 5 or above?"},
+      {question:"What is ¾ of 24?",options:["6","12","16","18"],correct:3,explanation:"¾ of 24: first find ¼ (24÷4=6), then multiply by 3 (6×3=18).",hint:"First find one quarter, then multiply by 3."},
+      {question:"What is 25% of 80?",options:["15","20","25","40"],correct:1,explanation:"25% = ¼. So 25% of 80 = 80 ÷ 4 = 20.",hint:"25% is the same as one quarter."},
+      {question:"A rectangle is 8cm long and 5cm wide. What is its area?",options:["26 cm²","30 cm²","40 cm²","13 cm²"],correct:2,explanation:"Area = length × width = 8 × 5 = 40 cm².",hint:"Area = length × width"},
+      {question:"What is 1000 − 364?",options:["636","664","646","736"],correct:0,explanation:"1000 − 364 = 636. Count up from 364: +36 = 400, +600 = 1000. Total = 636.",hint:"Try counting up from 364 to 1000."},
+      {question:"Which of these is a prime number?",options:["9","15","17","21"],correct:2,explanation:"17 is prime — it can only be divided by 1 and itself. 9=3×3, 15=3×5, 21=3×7.",hint:"A prime number has exactly two factors: 1 and itself."},
+    ],
+    English:[
+      {question:"Which word is a noun?",options:["quickly","happy","elephant","running"],correct:2,explanation:"A noun is a naming word for a person, place or thing. Elephant is a thing!",hint:"A noun is a naming word — a person, place or thing."},
+      {question:"Which sentence uses the correct apostrophe?",options:["The dogs bone","The dog\'s bone","The dogs\' bone","The dogs bone\'s"],correct:1,explanation:"The dog\'s bone shows possession — the bone belongs to one dog.",hint:"An apostrophe + s shows that something belongs to someone."},
+      {question:"What is the past tense of \'run\'?",options:["runned","ranned","ran","running"],correct:2,explanation:"The past tense of run is ran. It is an irregular verb — it doesn\'t follow the usual -ed pattern.",hint:"Some verbs change completely in the past tense — they\'re called irregular verbs."},
+      {question:"Which word is an adjective in this sentence: \'The tiny red boat sailed away\'?",options:["boat","sailed","tiny","away"],correct:2,explanation:"Tiny is an adjective — it describes the noun \'boat\'. Red is also an adjective!",hint:"An adjective describes a noun. What describes the boat?"},
+      {question:"Which is a fronted adverbial?",options:["The cat slept all day.","Slowly, the cat crept forward.","The cat is very fluffy.","It was a cat."],correct:1,explanation:"A fronted adverbial comes at the start of a sentence and tells us how, when or where something happened. Note the comma after it!",hint:"A fronted adverbial comes before the main clause and is followed by a comma."},
+      {question:"What does the prefix \'un-\' mean?",options:["again","before","not","badly"],correct:2,explanation:"The prefix un- means not. So unhappy means not happy, and unkind means not kind.",hint:"Think of words like unhappy, unkind, unfair — what do they have in common?"},
+      {question:"Which sentence is punctuated correctly?",options:["What is your name","What is your name!","What is your name?","what is your name?"],correct:2,explanation:"Questions need a question mark at the end. The sentence also starts with a capital letter.",hint:"What type of sentence is this — a statement, question or exclamation?"},
+      {question:"Which word is a synonym for \'happy\'?",options:["sad","angry","joyful","tired"],correct:2,explanation:"Joyful means feeling great happiness. Synonyms are words with similar meanings.",hint:"A synonym is a word with a similar meaning."},
+      {question:"Identify the conjunction: \'I stayed in because it was raining.\'",options:["stayed","because","raining","in"],correct:1,explanation:"Because is a subordinating conjunction — it joins the main clause to a reason.",hint:"A conjunction is a joining word that connects two parts of a sentence."},
+      {question:"Which sentence uses a simile?",options:["The lion roared.","Her hair was golden.","He ran like the wind.","The stars shone brightly."],correct:2,explanation:"He ran like the wind uses like to compare — that\'s a simile! Similes use \'like\' or \'as\'.",hint:"A simile compares two things using the words \'like\' or \'as\'."},
+    ],
+    Science:[
+      {question:"What do plants need to make their own food?",options:["Darkness and water","Sunlight, water and carbon dioxide","Sunlight and oxygen only","Soil and rain only"],correct:1,explanation:"Plants use sunlight, water and carbon dioxide in a process called photosynthesis to make glucose (food).",hint:"Think about the process of photosynthesis — what goes in?"},
+      {question:"Which organ pumps blood around the body?",options:["Lungs","Brain","Heart","Kidney"],correct:2,explanation:"The heart is a muscular organ that pumps blood through blood vessels to the whole body.",hint:"It\'s in your chest and you can feel it beating."},
+      {question:"What state of matter is ice?",options:["Gas","Liquid","Solid","Plasma"],correct:2,explanation:"Ice is water in its solid state. When heated above 0°C it melts into liquid water.",hint:"Think about what happens to ice when it\'s left at room temperature."},
+      {question:"Which force pulls objects towards the Earth?",options:["Magnetism","Friction","Gravity","Tension"],correct:2,explanation:"Gravity is the force that attracts objects towards the Earth\'s centre. It\'s why things fall down!",hint:"This force keeps us on the ground and makes things fall when dropped."},
+      {question:"What is the closest planet to the Sun?",options:["Venus","Earth","Mars","Mercury"],correct:3,explanation:"Mercury is the closest planet to the Sun. A year on Mercury lasts only 88 Earth days!",hint:"Think of the order of planets from the Sun: My Very Educated Mother..."},
+      {question:"What type of rock is formed from cooled lava?",options:["Sedimentary","Metamorphic","Igneous","Chalk"],correct:2,explanation:"Igneous rock forms when molten rock (magma or lava) cools and solidifies. Granite is an example.",hint:"This type of rock comes from volcanoes."},
+      {question:"Which of these is a reversible change?",options:["Burning wood","Baking a cake","Melting ice","Rusting iron"],correct:2,explanation:"Melting ice is reversible — you can freeze water again. The others are irreversible chemical changes.",hint:"Can the change be undone to get back the original material?"},
+      {question:"What is the correct order for a butterfly\'s life cycle?",options:["Egg, butterfly, caterpillar, chrysalis","Chrysalis, egg, caterpillar, butterfly","Egg, caterpillar, chrysalis, butterfly","Caterpillar, egg, chrysalis, butterfly"],correct:2,explanation:"A butterfly\'s life cycle: egg → caterpillar (larva) → chrysalis (pupa) → adult butterfly.",hint:"Think about what hatches from an egg first."},
+      {question:"What does a circuit need to make a bulb light up?",options:["A broken wire","No battery","A complete loop with a power source","Just a bulb"],correct:2,explanation:"Electricity needs a complete (unbroken) circuit and a power source (battery) to flow and light the bulb.",hint:"Electricity needs a path to travel around — what happens if there\'s a gap?"},
+      {question:"Which of these is NOT a source of light?",options:["The Sun","A torch","The Moon","A candle"],correct:2,explanation:"The Moon doesn\'t make its own light — it reflects light from the Sun. The Sun, torch and candle all produce their own light.",hint:"Does the Moon make its own light, or does it reflect light from something else?"},
+    ],
+    Reading:[
+      {question:"What does \'inference\' mean in reading?",options:["Finding exact words in the text","Working out what the author means from clues","Copying words from the text","Counting words in a passage"],correct:1,explanation:"Inference means using clues in the text (plus your own knowledge) to work out something the author hasn\'t directly stated.",hint:"Think about \'reading between the lines\' — the answer isn\'t stated directly."},
+      {question:"What is the \'main idea\' of a paragraph?",options:["The first sentence only","The last sentence only","The most important point the paragraph is about","A detail mentioned once"],correct:2,explanation:"The main idea is the central point of the paragraph. Other sentences give supporting details about it.",hint:"If you had to sum up the paragraph in one sentence, what would you say?"},
+      {question:"What is a \'synonym\'?",options:["A word that means the opposite","A word that sounds the same","A word with a similar meaning","A word that rhymes"],correct:2,explanation:"Synonyms are words with similar meanings. For example, happy and joyful are synonyms.",hint:"Think of words that could replace each other in a sentence without changing the meaning."},
+      {question:"What does \'cause and effect\' mean?",options:["Two characters in a story","Why something happens and what happens as a result","The beginning and end of a story","Two different settings"],correct:1,explanation:"Cause is why something happens; effect is what happens as a result. The cause leads to the effect.",hint:"Think: \'Because..., therefore...\' — what causes something and what is the result?"},
+      {question:"What does it mean to \'summarise\' a text?",options:["Copy out all the words","Write the text in a different language","Write a short version covering the main points","List every word you don\'t understand"],correct:2,explanation:"A summary picks out the most important points and writes them briefly in your own words.",hint:"If you had very little time, what are the key things someone would need to know?"},
+    ],
+    Vocabulary:[
+      {question:"What is an \'antonym\'?",options:["A word with a similar meaning","A word that sounds the same but means something different","A word that means the opposite","A very long word"],correct:2,explanation:"An antonym is a word with the opposite meaning. Hot and cold are antonyms. So are happy and sad.",hint:"Think of pairs like big/small, fast/slow — what do they have in common?"},
+      {question:"What does the prefix \'pre-\' mean?",options:["after","before","again","not"],correct:1,explanation:"Pre- means before. Prehistory = before history. Preview = to view before others.",hint:"Think of \'preview\' or \'prepare\' — what do these have in common?"},
+      {question:"Which word is a homophone of \'there\'?",options:["here","their","where","these"],correct:1,explanation:"There and their are homophones — they sound the same but have different meanings and spellings.",hint:"Homophones sound identical but are spelled differently and mean different things."},
+      {question:"What does \'enormous\' mean?",options:["Very small","Very fast","Very loud","Very large"],correct:3,explanation:"Enormous means extremely large. It comes from the Latin \'enormis\' meaning out of the ordinary.",hint:"Think of other words with a similar feel: huge, gigantic, massive..."},
+      {question:"Which word has a positive connotation?",options:["stubborn","determined","bossy","nosy"],correct:1,explanation:"Determined has a positive connotation — it suggests someone is focused and persistent. Stubborn describes the same trait negatively.",hint:"Connotation is the feeling a word gives. Which word feels positive?"},
+    ]
+  };
+  const pool=pools[subj]||pools.Maths;
+  const shuffled=[...pool].sort(()=>Math.random()-.5);
+  const picked=shuffled.slice(0,Math.min(count,shuffled.length));
+  while(picked.length<count)picked.push(...shuffled.slice(0,count-picked.length));
+  return picked.map(q=>({...q,type:"mcq"}));
+}
+
+function startQuizFlow(){
+  currentQ=0;answers=[];score=0;
+  const {selYear,selSubj,selTopic,childName}=quizParams;
+  document.getElementById("quiz-title").textContent=`${selSubj}: ${selTopic}`;
+  document.getElementById("quiz-info").textContent=`Year ${selYear}${childName?" • "+childName:""}`;
+  showScreen("quiz");
+  renderQuestion();
+}
+
+// ── Quiz rendering ────────────────────────────────────────────────
+function renderQuestion(){
+  const q=questions[currentQ];
+  const total=questions.length;
+  const pct=Math.round((currentQ/total)*100);
+  document.getElementById("progress-fill").style.width=pct+"%";
+  document.getElementById("q-counter").textContent=`Question ${currentQ+1} of ${total}`;
+  document.getElementById("q-number").textContent=`Question ${currentQ+1}`;
+  document.getElementById("q-text").textContent=q.question;
+
+  const hintEl=document.getElementById("q-hint");
+  const hintBtn=document.getElementById("hint-btn");
+  hintEl.textContent=""; hintEl.classList.remove("show");
+  if(q.hint){
+    hintEl.textContent="Hint: "+q.hint;
+    hintBtn.style.display="flex";
+    hintBtn.textContent=""; 
+    hintBtn.className="hint-btn";
+    hintBtn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><text x="7" y="11" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">?</text></svg> Show hint';
+  } else {
+    hintBtn.style.display="none";
+  }
+
+  document.getElementById("feedback-box").style.display="none";
+  document.getElementById("next-btn").style.display="none";
+
+  const area=document.getElementById("answer-area");
+  area.innerHTML="";
+
+  if(q.type==="mcq"||!q.type){
+    const grid=document.createElement("div");grid.className="options-grid";
+    q.options.forEach((opt,i)=>{
+      const btn=document.createElement("button");
+      btn.className="option-btn";
+      btn.textContent=String.fromCharCode(65+i)+".  "+opt;
+      btn.onclick=()=>selectAnswer(i);
+      grid.appendChild(btn);
+    });
+    area.appendChild(grid);
+  }
+}
+
+function revealHint(){
+  const btn=document.getElementById("hint-btn");
+  const hintEl=document.getElementById("q-hint");
+  hintEl.classList.add("show");
+  btn.className="hint-btn used";
+  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><text x="7" y="11" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">?</text></svg> Hint shown';
+  btn.onclick=null;
+}
+
+function selectAnswer(chosen){
+  const q=questions[currentQ];
+  const isCorrect=(chosen===q.correct);
+  if(isCorrect)score++;
+  answers.push({question:q.question,chosen,correct:q.correct,options:q.options,isCorrect,explanation:q.explanation||""});
+
+  // Disable all buttons and highlight
+  const btns=document.querySelectorAll(".option-btn");
+  btns.forEach((btn,i)=>{
+    btn.disabled=true;
+    if(i===q.correct)btn.classList.add("correct");
+    else if(i===chosen&&!isCorrect)btn.classList.add("wrong");
+  });
+
+  // Show feedback
+  const fb=document.getElementById("feedback-box");
+  fb.style.display="block";
+  fb.className="feedback-box "+(isCorrect?"correct":"wrong");
+  if(isCorrect){
+    fb.innerHTML=`<strong>&#10004; Correct! Well done!</strong>${q.explanation?`<div class="review-expl">${q.explanation}</div>`:""}`;
+  } else {
+    fb.innerHTML=`<strong>&#10008; Not quite!</strong>The correct answer was: <div class="correct-ans">&#10004; ${q.options[q.correct]}</div>${q.explanation?`<div class="review-expl">${q.explanation}</div>`:""}`;
+  }
+
+  const nextBtn=document.getElementById("next-btn");
+  nextBtn.style.display="block";
+  nextBtn.textContent=currentQ<questions.length-1?"Next question &#8594;":"See my results &#127881;";
+}
+
+function nextQuestion(){
+  currentQ++;
+  if(currentQ>=questions.length){showResults();return;}
+  renderQuestion();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// ── Results ───────────────────────────────────────────────────────
+function showResults(){
+  showScreen("results");
+  const total=questions.length;
+  const pct=Math.round((score/total)*100);
+  const wrong=total-score;
+  const {childName,selSubj,selTopic,selYear}=quizParams;
+
+  // Badge and title based on score
+  let badge,title,sub;
+  if(pct>=90){badge="&#127941;";title=childName?"Amazing, "+childName+"!":"Amazing!";sub="Outstanding performance — you really know this topic!";}
+  else if(pct>=70){badge="&#11088;";title=childName?"Great work, "+childName+"!":"Great work!";sub="Really solid effort — just a few to brush up on.";}
+  else if(pct>=50){badge="&#128077;";title="Good effort!";sub="You're on the right track — keep practising the tricky ones.";}
+  else{badge="&#128218;";title="Keep going!";sub="Every mistake is a chance to learn. Have another go!";}
+
+  document.getElementById("results-badge").innerHTML=badge;
+  document.getElementById("results-title").textContent=title;
+  document.getElementById("results-sub").textContent=sub;
+  document.getElementById("score-pct").textContent=pct+"%";
+  document.getElementById("stat-correct").textContent=score;
+  document.getElementById("stat-wrong").textContent=wrong;
+  document.getElementById("stat-total").textContent=total;
+
+  // Animate ring
+  const circumference=314;
+  const offset=circumference-(pct/100*circumference);
+  const ring=document.getElementById("score-ring-fill");
+  ring.style.stroke=pct>=70?"var(--teal)":pct>=50?"var(--amber)":"var(--red)";
+  setTimeout(()=>{ring.style.strokeDashoffset=offset;},100);
+
+  // Review list
+  const reviewList=document.getElementById("review-list");
+  reviewList.innerHTML="";
+  answers.forEach((ans,i)=>{
+    const div=document.createElement("div");
+    div.className="review-item "+(ans.isCorrect?"correct-item":"wrong-item");
+    div.innerHTML=`
+      <div class="review-q">Q${i+1}: ${ans.question}</div>
+      <div class="review-row">
+        <span class="review-tick">${ans.isCorrect?"&#10004;":"&#10008;"}</span>
+        <span class="review-ans">${ans.isCorrect?"Correct: ":"Your answer: "}<em>${ans.options[ans.chosen]}</em></span>
+      </div>
+      ${!ans.isCorrect?`<div class="review-row"><span class="review-tick">&#10004;</span><span class="review-ans">Correct answer: <em>${ans.options[ans.correct]}</em></span></div>`:""}
+      ${ans.explanation?`<div class="review-expl">${ans.explanation}</div>`:""}
+    `;
+    reviewList.appendChild(div);
+  });
+
+  // Improvement suggestions
+  const wrongAnswers=answers.filter(a=>!a.isCorrect);
+  const improveBox=document.getElementById("improve-box");
+  if(wrongAnswers.length>0){
+    improveBox.style.display="block";
+    const improveList=document.getElementById("improve-list");
+    improveList.innerHTML="";
+    // Show up to 4 specific suggestions
+    const suggestions=[
+      `Practise ${selTopic} questions daily — even 5 minutes makes a difference`,
+      `Try the ${selTopic} worksheet version for pencil-and-paper practice`,
+      `Focus on the questions you got wrong and re-read the explanations`,
+      wrong>=Math.ceil(total*0.5)?`Consider trying the Gentle difficulty first to build confidence`:`You\'re close! Try the same quiz again to improve your score`,
+    ];
+    suggestions.slice(0,Math.min(3,wrongAnswers.length+1)).forEach(s=>{
+      const li=document.createElement("div");li.className="improve-item";li.textContent=s;
+      improveList.appendChild(li);
+    });
+  } else {
+    improveBox.style.display="none";
+  }
+}
+
+function retryQuiz(){
+  const p=quizParams;
+  selYear=p.selYear;selSubj=p.selSubj;selTopic=p.selTopic;
+  startQuiz();
+}
+function newQuiz(){
+  showScreen("setup");
+}
+
+// Init
+updateKeyUI();
+buildTopics();
+</script>
+</body>
+</html,
+    Reading:[
+      {question:"What does it mean to infer something from a text?",options:["Copy words exactly from the text","Use clues to work out something not directly stated","Count how many times a word appears","Write a summary of the text"],correct:1,explanation:"Inference means reading between the lines — using clues in the text plus your own knowledge to work out what the author hasn't directly said.",hint:"Think about 'reading between the lines' — the answer isn't written directly."},
+      {question:"What is the 'main idea' of a paragraph?",options:["The longest sentence in the paragraph","The first word of the paragraph","The most important point the paragraph makes","A detail mentioned only once"],correct:2,explanation:"The main idea is the central point. All other sentences in the paragraph support or give details about it.",hint:"If you had to sum up the whole paragraph in one sentence, what would you say?"},
+      {question:"What does 'cause and effect' mean?",options:["Two characters in a story","The beginning and end of a story","Why something happens and what happens as a result","Two different settings"],correct:2,explanation:"Cause is why something happens; effect is what happens as a result. They are linked: the cause leads to the effect.",hint:"Think: 'Because... therefore...' — what causes something and what is the result?"},
+      {question:"What is 'point of view' in a story?",options:["Where the story is set","The perspective from which the story is told","The main problem in the story","How long the story is"],correct:1,explanation:"Point of view is who tells the story. First person uses I/me; third person uses he/she/they.",hint:"Ask: whose eyes are we seeing the story through?"},
+      {question:"What is a simile?",options:["A word that sounds like what it describes","Comparing two things using 'like' or 'as'","A word with the opposite meaning","When sentences start with the same sound"],correct:1,explanation:"A simile compares two things using 'like' or 'as'. For example: 'she ran like the wind' or 'as brave as a lion'.",hint:"Look for the words 'like' or 'as' being used to compare two things."},
+      {question:"What does it mean to 'summarise' a text?",options:["Copy the whole text out","Write a very long version with more detail","Write a short version of the main points in your own words","Change all the words to rhyme"],correct:2,explanation:"A summary picks out the most important points and writes them briefly in your own words — leaving out unnecessary detail.",hint:"Imagine you only had 3 sentences to tell someone what the text was about."},
+      {question:"What is the difference between fact and opinion?",options:["Facts are short; opinions are long","A fact can be proved true; an opinion is what someone thinks","Facts are boring; opinions are interesting","There is no difference"],correct:1,explanation:"A fact can be checked and proved true or false. An opinion is what someone thinks or believes and cannot be proved.",hint:"Could you check it in a reference book or by measuring? If yes, it's likely a fact."},
+      {question:"What is a metaphor?",options:["A comparison using 'like' or 'as'","A word that sounds like what it describes","A direct comparison that says one thing IS another","A funny poem"],correct:2,explanation:"A metaphor says one thing IS another without using 'like' or 'as'. For example: 'the classroom was a zoo' or 'time is a thief'.",hint:"Unlike a simile, a metaphor does NOT use 'like' or 'as' — it says one thing directly IS something else."},
+      {question:"What is 'sequencing' in reading?",options:["Counting the number of sentences","Putting events in the order they happened","Finding rhyming words","Identifying the author's name"],correct:1,explanation:"Sequencing means arranging events in the order they occurred in the text. Words like first, then, next and finally signal sequence.",hint:"Think about the order events happen: first... then... next... finally..."},
+      {question:"What is a 'theme' in a story?",options:["The title of the story","The name of the main character","The big idea or message the author wants to share","The setting of the story"],correct:2,explanation:"A theme is the underlying message or big idea — for example friendship, courage, fairness or growing up. It's what the story is really 'about' beyond the plot.",hint:"Ask: what lesson or big idea does the whole story seem to be about?"}
+    ],
+    Vocabulary:[
+      {question:"What is an antonym?",options:["A word with a similar meaning","A word that sounds the same but is spelled differently","A word with the opposite meaning","A word made from two smaller words"],correct:2,explanation:"An antonym is a word with the opposite meaning. Hot/cold, fast/slow and happy/sad are all antonym pairs.",hint:"Think of pairs like big/small, fast/slow — they are opposite in meaning."},
+      {question:"What does the prefix 'un-' mean?",options:["again","before","badly","not"],correct:3,explanation:"The prefix un- means 'not'. So unhappy means not happy, unkind means not kind, and unfair means not fair.",hint:"Think of words like unhappy, unkind, unfair — what do they all have in common?"},
+      {question:"Which of these is a homophone pair?",options:["big / large","there / their","run / runs","happy / unhappy"],correct:1,explanation:"Homophones sound identical but are spelled differently and mean different things. 'There' (a place) and 'their' (belonging to them) are homophones.",hint:"Homophones sound the same when spoken but are written differently and mean different things."},
+      {question:"What does the suffix '-ful' mean?",options:["without","full of","again","wrongly"],correct:1,explanation:"The suffix -ful means 'full of'. Cheerful = full of cheer, hopeful = full of hope, careful = full of care.",hint:"Think of cheerful, hopeful, careful — what do they share in meaning?"},
+      {question:"What is onomatopoeia?",options:["Repeating the same starting sound","A word that sounds like what it describes","A comparison using 'like' or 'as'","A word meaning the opposite"],correct:1,explanation:"Onomatopoeia is when a word sounds like the thing it describes — buzz, crash, sizzle, splash and boom are all examples.",hint:"Say the word out loud — does it sound like the thing it's describing?"},
+      {question:"What does the prefix 're-' mean?",options:["not","before","again","badly"],correct:2,explanation:"The prefix re- means 'again'. Redo = do again, rewrite = write again, replay = play again.",hint:"Think of redo, rewrite, replay — what do they all have in common?"},
+      {question:"What is alliteration?",options:["Words that rhyme at the end","Words that sound like what they describe","Repeating the same starting sound in nearby words","A word with the opposite meaning"],correct:2,explanation:"Alliteration is when nearby words start with the same sound. 'Peter Piper picked a peck' and 'she sells seashells' are classic examples.",hint:"Listen for the same sound repeating at the start of words close together."},
+      {question:"What is a compound word?",options:["A very long word","A word with a prefix","A word made from two smaller words joined together","A word that sounds like another"],correct:2,explanation:"A compound word is formed by joining two smaller words. Sunflower = sun + flower. Rainbow = rain + bow. Football = foot + ball.",hint:"Try splitting the word into two smaller words that each make sense on their own."},
+      {question:"What does 'connotation' mean?",options:["The dictionary definition of a word","The feeling or idea a word suggests beyond its literal meaning","How many syllables a word has","The origin of a word"],correct:1,explanation:"Connotation is the emotional feeling a word carries. 'Determined' and 'stubborn' mean similar things, but 'determined' feels positive and 'stubborn' feels negative.",hint:"Think about whether a word feels positive, negative or neutral — that feeling is its connotation."},
+      {question:"What does the suffix '-less' mean?",options:["full of","again","without","badly"],correct:2,explanation:"The suffix -less means 'without'. Hopeless = without hope, careless = without care, endless = without end.",hint:"Think of hopeless, careless, endless — what do they share?"}
+    ]>
