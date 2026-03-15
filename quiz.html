@@ -658,7 +658,7 @@ function selectAnswer(chosen){
 
   const nextBtn=document.getElementById("next-btn");
   nextBtn.style.display="block";
-  nextBtn.textContent=currentQ<questions.length-1?"Next question &#8594;":"See my results &#127881;";
+  nextBtn.innerHTML=currentQ<questions.length-1?"Next question &rarr;":"See my results &#127881;";
 }
 
 function nextQuestion(){
