@@ -748,9 +748,50 @@ function newQuiz(){
   showScreen("setup");
 }
 
-// Init
-updateKeyUI();
-buildTopics();
+// ── Init: read URL params from worksheet page ───────────────────
+(function init(){
+  const params = new URLSearchParams(window.location.search);
+
+  // Pre-select year if passed
+  const yr = parseInt(params.get("year"));
+  if(yr >= 1 && yr <= 6){
+    selYear = yr;
+    document.querySelectorAll(".pill").forEach(p=>{
+      p.classList.toggle("active", parseInt(p.dataset.year) === yr);
+    });
+  }
+
+  // Pre-select subject if passed
+  const subj = params.get("subj");
+  if(subj && ["Maths","English","Science","Reading","Vocabulary"].includes(subj)){
+    selSubj = subj;
+    document.querySelectorAll(".subj-btn").forEach(b=>{
+      b.classList.toggle("active", b.dataset.subj === subj);
+    });
+  }
+
+  updateKeyUI();
+  buildTopics();
+
+  // Pre-select topic if passed (must happen after buildTopics)
+  const topic = params.get("topic");
+  if(topic){
+    const cards = document.querySelectorAll(".topic-card");
+    cards.forEach(card=>{
+      const name = card.querySelector(".tc-name");
+      if(name && name.textContent.trim() === topic){
+        card.click();
+        setTimeout(()=> card.scrollIntoView({behavior:"smooth", block:"nearest"}), 150);
+      }
+    });
+  }
+
+  // Show a "Back to worksheets" link if we came from index
+  if(params.get("year") || params.get("subj")){
+    const footer = document.querySelector(".footer");
+    if(footer) footer.innerHTML = "&#8592; <a href='index.html'>Back to worksheets</a> &middot; Built with love for families and schools &middot; Always free";
+  }
+})();
 </script>
 </body>
 </html,
