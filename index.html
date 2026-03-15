@@ -7,6 +7,7 @@
 <meta name="description" content="Free printable worksheets for UK primary school children. Maths, English and Science for Years 1-6. No account needed."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23534AB7'/%3E%3Crect x='14' y='16' width='36' height='5' rx='2.5' fill='white' opacity='.95'/%3E%3Crect x='14' y='26' width='28' height='5' rx='2.5' fill='white' opacity='.8'/%3E%3Crect x='14' y='36' width='32' height='5' rx='2.5' fill='white' opacity='.8'/%3E%3Crect x='14' y='46' width='20' height='5' rx='2.5' fill='white' opacity='.6'/%3E%3C/svg%3E"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -26,9 +27,11 @@
 }
 body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min-height:100vh;padding:16px}
 .container{max-width:920px;margin:0 auto;background:var(--bg);border-radius:16px;padding:24px 28px;box-shadow:var(--shadow)}
+
 /* Header */
 .header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--border)}
-.logo{width:48px;height:48px;border-radius:12px;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.logo{width:48px;height:48px;border-radius:12px;background:var(--purple);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo svg{width:28px;height:28px}
 .brand-title{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.3px}
 .brand-sub{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
@@ -37,6 +40,7 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .key-status:hover{border-color:var(--muted);color:var(--text)}
 .key-status.has-key{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
 .key-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+
 /* Welcome screen */
 .welcome-screen{display:none}
 .welcome-screen.show{display:block}
@@ -44,8 +48,8 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .welcome-hero h2{font-size:24px;font-weight:900;color:var(--text);margin-bottom:8px}
 .welcome-hero p{font-size:13px;color:var(--muted);max-width:460px;margin:0 auto;line-height:1.7}
 .mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
-@media(max-width:580px){.mode-cards{grid-template-columns:1fr}}
-.mode-card{border-radius:14px;padding:20px 18px;border:2px solid var(--border);cursor:pointer;transition:all .18s;background:var(--bg2)}
+@media(max-width:560px){.mode-cards{grid-template-columns:1fr}}
+.mode-card{border-radius:14px;padding:20px 18px;border:2px solid var(--border);transition:all .18s;background:var(--bg2)}
 .mode-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
 .mode-card.free-card{border-color:var(--teal-mid);background:var(--teal-light)}
 .mode-card.ai-card{border-color:var(--purple-mid);background:var(--purple-light)}
@@ -57,17 +61,18 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .free-card .mode-card-title{color:var(--teal)}
 .ai-card .mode-card-title{color:var(--purple)}
 .mode-card-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px}
-.mode-card-bullets{list-style:none;display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
-.mode-card-bullets li{font-size:12px;color:var(--muted);display:flex;gap:7px;line-height:1.5}
-.free-card .mode-card-bullets li:before{content:"tick";color:var(--teal);font-weight:800;font-size:10px;margin-top:2px;flex-shrink:0}
-.ai-card .mode-card-bullets li:before{content:"tick";color:var(--purple);font-weight:800;font-size:10px;margin-top:2px;flex-shrink:0}
+.mode-card-bullets{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
+.mode-card-bullets li{font-size:12px;color:var(--muted);display:flex;gap:8px;line-height:1.5}
+.free-card .mode-card-bullets li::before{content:"✓";color:var(--teal);font-weight:900;flex-shrink:0}
+.ai-card .mode-card-bullets li::before{content:"✓";color:var(--purple);font-weight:900;flex-shrink:0}
 .mode-card-btn{width:100%;padding:11px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;border:none;font-family:"Nunito",sans-serif;transition:all .15s}
 .free-card .mode-card-btn{background:var(--teal);color:#fff}
 .free-card .mode-card-btn:hover{background:#085041}
 .ai-card .mode-card-btn{background:var(--purple);color:#fff}
 .ai-card .mode-card-btn:hover{background:var(--purple-dark)}
-.welcome-note{text-align:center;font-size:11px;color:var(--muted)}
-.welcome-note a{color:var(--purple);text-decoration:none;font-weight:700}
+.welcome-note{text-align:center;font-size:11px;color:var(--muted);padding-bottom:8px}
+.welcome-note a{color:var(--purple);text-decoration:none;font-weight:700;cursor:pointer}
+
 /* Main app */
 .main-app{display:none}
 .main-app.show{display:block}
@@ -76,6 +81,7 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .mode-banner.ai-mode{background:var(--green-light);border-color:var(--green);color:var(--green)}
 .mode-banner strong{font-weight:800}
 .banner-btn{padding:4px 12px;border-radius:12px;font-size:10px;font-weight:800;border:1.5px solid currentColor;background:transparent;cursor:pointer;color:inherit;font-family:"Nunito",sans-serif;flex-shrink:0}
+
 /* Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.open{display:flex}
@@ -95,11 +101,13 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .modal-btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
 .modal-btn.primary:hover{background:var(--purple-dark)}
 .modal-btn.danger{background:var(--coral-light);border-color:var(--coral);color:var(--coral)}
-/* Curriculum UI */
+
+/* Curriculum */
 .section-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
 .pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
 .pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);color:var(--muted);background:var(--bg2);transition:all .15s;font-family:"Nunito",sans-serif}
-.pill:hover{border-color:var(--muted)}.pill.active{border-color:var(--purple);background:var(--purple-light);color:var(--purple)}
+.pill:hover{border-color:var(--muted)}
+.pill.active{border-color:var(--purple);background:var(--purple-light);color:var(--purple)}
 .subj-wrap{display:flex;gap:10px;margin-bottom:18px}
 .subj-btn{flex:1;padding:12px 8px;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;border:2px solid var(--border);color:var(--muted);background:var(--bg2);transition:all .15s;font-family:"Nunito",sans-serif}
 .subj-btn:hover{border-color:var(--muted)}
@@ -130,6 +138,7 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .badge .x{cursor:pointer;opacity:.6;font-size:10px}.badge .x:hover{opacity:1}
 .no-progress{font-size:12px;color:var(--muted);font-style:italic}
 .divider{height:1px;background:var(--border);margin:20px 0}
+
 /* Worksheet */
 #worksheet-area{display:none}
 .ws-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px}
@@ -157,7 +166,8 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 @media(max-width:600px){.container{padding:16px}.subj-wrap{flex-direction:column}.opts{flex-direction:column;align-items:stretch}.header-badge{display:none}}
 @media print{
   body{background:white;padding:0}.container{box-shadow:none;border-radius:0;padding:20px 28px}
-  .welcome-screen,.main-app,.header,.footer,.star-section,.divider{display:none!important}
+  .welcome-screen,.main-app .mode-banner,.header,.footer,.star-section,.divider,.ws-header,.progress-section,.opts .gen-btn{display:none!important}
+  .main-app.show{display:block!important}
   #worksheet-area{display:block!important}
   #ws-content{border:none;padding:0;background:white;font-size:13pt;line-height:2.1}
 }
@@ -188,9 +198,18 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 
 <div class="container">
 
-  <!-- Header (always visible) -->
+  <!-- Header -->
   <div class="header">
-    <div class="logo">&#128196;</div>
+    <div class="logo">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="2" width="22" height="26" rx="3" fill="white" opacity="0.15"/>
+        <rect x="3" y="2" width="22" height="26" rx="3" stroke="white" stroke-width="1.5" opacity="0.9"/>
+        <rect x="7" y="7" width="14" height="2.5" rx="1.25" fill="white"/>
+        <rect x="7" y="12" width="10" height="2.5" rx="1.25" fill="white" opacity="0.85"/>
+        <rect x="7" y="17" width="12" height="2.5" rx="1.25" fill="white" opacity="0.85"/>
+        <rect x="7" y="22" width="7" height="2.5" rx="1.25" fill="white" opacity="0.6"/>
+      </svg>
+    </div>
     <div>
       <div class="brand-title">Free Worksheet Generator</div>
       <div class="brand-sub">Printable worksheets - UK National Curriculum - Years 1 to 6</div>
@@ -204,14 +223,14 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
     </div>
   </div>
 
-  <!-- WELCOME SCREEN: shown to first-time visitors only -->
+  <!-- WELCOME SCREEN: first-time visitors only -->
   <div class="welcome-screen" id="welcome-screen">
     <div class="welcome-hero">
       <h2>How would you like to use it?</h2>
       <p>Both are completely free. Start instantly or unlock AI-powered worksheets - your choice, switch anytime.</p>
     </div>
     <div class="mode-cards">
-      <div class="mode-card free-card" onclick="startFreeMode()">
+      <div class="mode-card free-card">
         <div class="mode-card-icon">&#128214;</div>
         <div class="mode-card-tag">No sign-up needed</div>
         <div class="mode-card-title">Use instantly - no setup</div>
@@ -223,9 +242,9 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
           <li>Answer key on every sheet</li>
           <li>Print or save as PDF</li>
         </ul>
-        <button class="mode-card-btn">Start for free &#8594;</button>
+        <button class="mode-card-btn" onclick="startFreeMode()">Start for free &#8594;</button>
       </div>
-      <div class="mode-card ai-card" onclick="startAiMode()">
+      <div class="mode-card ai-card">
         <div class="mode-card-icon">&#10024;</div>
         <div class="mode-card-tag">Unlimited unique worksheets</div>
         <div class="mode-card-title">Unlock AI-generated worksheets</div>
@@ -237,19 +256,17 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
           <li>Parent tips on each sheet</li>
           <li>Less than a penny per worksheet</li>
         </ul>
-        <button class="mode-card-btn">Set up free API key &#8594;</button>
+        <button class="mode-card-btn" onclick="startAiMode()">Set up free API key &#8594;</button>
       </div>
     </div>
-    <div class="welcome-note">Not sure? <a href="#" onclick="startFreeMode();return false;">Start free</a> and upgrade anytime - no pressure.</div>
+    <div class="welcome-note">Not sure? <a onclick="startFreeMode()">Start free</a> and upgrade anytime - no pressure.</div>
   </div>
 
-  <!-- MAIN APP: shown after mode chosen or on return visits -->
+  <!-- MAIN APP -->
   <div class="main-app" id="main-app">
 
-    <!-- Mode banner -->
     <div class="mode-banner" id="mode-banner"></div>
 
-    <!-- Year group -->
     <div class="section-label">Year group</div>
     <div class="pill-row" id="year-pills">
       <span class="pill" data-year="1">Year 1</span>
@@ -260,7 +277,6 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
       <span class="pill" data-year="6">Year 6</span>
     </div>
 
-    <!-- Subject -->
     <div class="section-label">Subject</div>
     <div class="subj-wrap">
       <button class="subj-btn maths active" data-subj="Maths">&#10133; Maths</button>
@@ -268,11 +284,9 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
       <button class="subj-btn science" data-subj="Science">&#128300; Science</button>
     </div>
 
-    <!-- Topics -->
     <div class="section-label" id="topic-label">Topics - Year 4 - Maths</div>
     <div class="topic-grid" id="topic-grid"></div>
 
-    <!-- Options row -->
     <div class="opts">
       <div class="opt-group">
         <label>Child name (optional)</label>
@@ -300,7 +314,6 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
       </div>
     </div>
 
-    <!-- Progress -->
     <div class="progress-section">
       <div class="progress-header">
         <div class="progress-title">Completed topics</div>
@@ -313,7 +326,6 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 
     <div class="divider"></div>
 
-    <!-- Worksheet output -->
     <div id="worksheet-area">
       <div class="ws-header">
         <div>
@@ -340,25 +352,24 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
       <div id="ws-content"></div>
     </div>
 
-  </div><!-- end main-app -->
+  </div><!-- /main-app -->
 
   <div class="footer">
     Built with love for families and schools &middot; Always free &middot; No ads &middot;
     <a href="https://github.com/your-username/worksheet-generator" target="_blank">View on GitHub</a>
   </div>
-
-</div><!-- end container -->
+</div>
 
 <script>
 const CURRICULUM={Maths:{1:["Counting to 20","Addition to 10","Subtraction to 10","2D Shapes","Ordering numbers","Simple patterns","Measuring length","Time (o'clock, half past)"],2:["Place value to 100","Addition & subtraction to 100","Multiplication (2s, 5s, 10s)","Fractions (halves, quarters)","Measurement (cm, m)","Telling time","Money","3D shapes"],3:["Place value to 1000","Written addition & subtraction","Multiplication tables (3,4,8)","Fractions on a number line","Perimeter","Bar charts & data","Angles (right angle)","Roman numerals to XII"],4:["Place value to 10,000","Multiply & divide (6,7,9,11,12)","Equivalent fractions","Decimals (tenths, hundredths)","Area & perimeter","Coordinates","Line graphs & statistics","Roman numerals to C"],5:["Place value to 1,000,000","Long multiplication","Fractions (add, subtract, multiply)","Percentages & decimals","Volume","Prime & composite numbers","Negative numbers","Angles in shapes"],6:["Algebra & formulae","Fractions, decimals, percentages","Ratio & proportion","Area (circles, triangles)","Mean, median, mode","3D shape nets","Order of operations","Probability"]},English:{1:["Phonics (CVC words)","Capital letters & full stops","Joining words (and, but, so)","Nouns & verbs","Rhyming words","Alphabetical order","Simple sentences","Story sequencing"],2:["Punctuation (! ? ,)","Adjectives","Past & present tense","Compound words","Contractions","Reading comprehension","Suffixes (-ing, -ed, -er)","Expanded noun phrases"],3:["Paragraphs","Speech marks","Prefixes (un-, dis-, mis-)","Conjunctions","Possessive apostrophes","Word families","Non-fiction writing","Sentence variety"],4:["Fronted adverbials","Pronouns","Homophones","Determiners","Standard English","Poetry & figurative language","Informal vs formal writing","Editing & improving"],5:["Relative clauses","Modal verbs","Semi-colons & colons","Word roots (Latin, Greek)","Synonyms & antonyms","Persuasive writing","Parenthesis","Active & passive voice"],6:["Subjunctive mood","Cohesion & linking","Formal writing register","Complex sentence structures","Rhetoric & argument","Narrative techniques","Grammar revision","Spelling strategies"]},Science:{1:["Plants & what they need","Animals & their young","Materials & properties","Seasons","The five senses","Living vs non-living","Everyday objects","Sorting & grouping"],2:["Life cycles (plants)","Animals including humans","Uses of materials","Habitats & food chains","Keeping healthy","Light & dark","Floating & sinking","Scientists & inventors"],3:["Rocks & soils","Plants (parts & functions)","Animals (nutrition & skeletons)","Forces & magnets","Light & shadows","States of matter","Sound basics","Solids, liquids, gases"],4:["Electricity (circuits)","Sound (vibrations)","Animals (digestion & teeth)","States of matter (changes)","Living things & habitats","Grouping living things","Water cycle","Human impact"],5:["Earth & Space","Forces (gravity, air resistance)","Life cycles (mammals, insects)","Properties of materials","Reversible & irreversible changes","Human development","Ecosystems","Dissolving & filtering"],6:["Electricity (voltage & symbols)","Light (reflection, refraction)","Evolution & inheritance","Circulatory system","Classification of living things","Microorganisms","Adaptation","Scientific enquiry"]}};
 
-const FREE_BANKS={Maths:[{q:"What is 7 + 8 = _____",a:"15"},{q:"What is 3 x 4 = _____",a:"12"},{q:"Write five hundred and forty-six in digits: _____",a:"546"},{q:"What fraction is shaded if 2 out of 4 parts are coloured? _____",a:"1/2 (one half)"},{q:"A bag of apples costs 1.20 pounds. How much do 3 bags cost? _____",a:"3.60 pounds"},{q:"Area of a rectangle 5cm long and 3cm wide? _____ cm squared",a:"15 cm squared"},{q:"Round 347 to the nearest 100: _____",a:"300"},{q:"What is 9 x 7 = _____",a:"63"},{q:"True or False: 0.5 is the same as a half?   [ True / False ]",a:"True"},{q:"A train leaves at 14:30 and arrives at 16:05. How long is the journey?\n   _____ hour(s) and _____ minutes",a:"1 hour and 35 minutes"},{q:"What is 1000 minus 364? _____",a:"636"},{q:"Circle the larger number:   3.7     3.07",a:"3.7"},{q:"What is 25% of 80? _____",a:"20"},{q:"Write the next two numbers:   5, 10, 20, 40, _____, _____",a:"80, 160"},{q:"A pizza has 8 slices. Tom eats 3. What fraction is left? _____",a:"5/8 (five eighths)"},{q:"What is 6 squared? _____",a:"36"},{q:"A rectangle has perimeter 24cm and length 8cm. What is the width? _____ cm",a:"4 cm"},{q:"Order smallest to largest:   0.9   0.09   9   0.19\n   _____, _____, _____, _____",a:"0.09, 0.19, 0.9, 9"},{q:"What is the value of digit 7 in 47,382? _____",a:"7,000 (seven thousand)"},{q:"BONUS: Apples cost 35p each. How many can I buy with 2.50 pounds? _____",a:"7 apples (7 x 35p = 2.45 pounds, 5p change)"}],English:[{q:"Add end punctuation:\n   the dog ran into the garden and barked loudly\n   ___________________________________",a:"The dog ran into the garden and barked loudly."},{q:"Circle the adjective:\n   The tiny spider climbed the tall wall.",a:"tiny, tall"},{q:"Change to past tense:\n   She runs to school.\n   ___________________________________",a:"She ran to school."},{q:"Add prefixes to make opposites:\n   ___happy      ___agree      ___appear",a:"unhappy / disagree / disappear"},{q:"Which word is the noun? Circle it:\n   run     blue     happiness     quickly",a:"happiness"},{q:"Write a sentence using the word although:\n   ___________________________________",a:"Any correct sentence, e.g. Although it was raining, we went to the park."},{q:"Correct this sentence:\n   me and tom went too the park\n   ___________________________________",a:"Tom and I went to the park."},{q:"Write a synonym for happy: _____",a:"e.g. joyful / glad / delighted / pleased"},{q:"Add speech marks:\n   Mum said it is time for dinner.\n   ___________________________________",a:"Mum said, \"It is time for dinner.\""},{q:"Write the plural:\n   child -> _____     mouse -> _____     tooth -> _____",a:"children / mice / teeth"},{q:"Underline the fronted adverbial:\n   After a long day, the children finally went to bed.",a:"After a long day"},{q:"Which uses a comma correctly? Circle A or B:\n   A: I like cats, and dogs.\n   B: After school, we went swimming.",a:"B"},{q:"Add the missing apostrophe:\n   The girls coat was bright red.\n   ___________________________________",a:"The girl\'s coat was bright red."},{q:"Statement, question, command or exclamation?\n   What a wonderful day it is!  -> _____",a:"Exclamation"},{q:"BONUS: Rewrite in the passive voice:\n   The chef cooked the meal.\n   ___________________________________",a:"The meal was cooked by the chef."}],Science:[{q:"Name the three states of matter:\n   1. ___________   2. ___________   3. ___________",a:"Solid, Liquid, Gas"},{q:"True or False: Plants need sunlight to make their own food.   [ True / False ]",a:"True - plants use sunlight for photosynthesis"},{q:"What organ pumps blood around your body? _____________________",a:"The heart"},{q:"Name one material that conducts electricity well: _____________________",a:"e.g. copper / iron / steel / aluminium"},{q:"Explain why ice melts when you hold it:\n   ___________________________________",a:"Heat from your hand transfers to the ice, raising it above 0 degrees C, changing it from solid to liquid."},{q:"Draw and label a simple series circuit with a battery, wire and bulb.\n   (Use the space below)\n\n\n",a:"Should show: battery connected by wires in a complete loop to a bulb."},{q:"Which planet is closest to the Sun? _____________________",a:"Mercury"},{q:"Name two things a plant needs to grow:\n   1. ___________   2. ___________",a:"Any two of: water, sunlight, warmth, soil/nutrients, carbon dioxide"},{q:"Difference between a herbivore and a carnivore?\n   ___________________________________",a:"A herbivore eats only plants; a carnivore eats only meat."},{q:"What would happen to a puddle on a sunny day? Explain.\n   ___________________________________",a:"It would evaporate. Heat from the Sun gives water molecules enough energy to become water vapour."},{q:"Which is a reversible change? Circle it:\n   Burning wood     Melting ice     Baking a cake",a:"Melting ice (can be refrozen; others are irreversible)"},{q:"Name the four stages of a butterfly life cycle in order:\n   1. _____  2. _____  3. _____  4. _____",a:"Egg, Caterpillar (larva), Chrysalis (pupa), Butterfly (adult)"},{q:"What force pulls objects towards the Earth? _____________________",a:"Gravity"},{q:"Complete the food chain:\n   grass -> _____ -> fox",a:"Any sensible herbivore, e.g. rabbit / mouse"},{q:"BONUS: Why are astronauts weightless on the ISS?\n   ___________________________________",a:"The ISS is in free fall around Earth. Both astronauts and station fall at the same rate, creating the sensation of weightlessness."}]};
+const FREE_BANKS={Maths:[{q:"What is 7 + 8 = _____",a:"15"},{q:"What is 3 x 4 = _____",a:"12"},{q:"Write five hundred and forty-six in digits: _____",a:"546"},{q:"What fraction is shaded if 2 out of 4 parts are coloured? _____",a:"1/2 (one half)"},{q:"A bag of apples costs 1.20 pounds. How much do 3 bags cost? _____",a:"3.60 pounds"},{q:"Area of a rectangle 5cm long and 3cm wide? _____ cm squared",a:"15 cm squared"},{q:"Round 347 to the nearest 100: _____",a:"300"},{q:"What is 9 x 7 = _____",a:"63"},{q:"True or False: 0.5 is the same as a half?   [ True / False ]",a:"True"},{q:"A train leaves at 14:30 and arrives at 16:05. How long is the journey?\n   _____ hour(s) and _____ minutes",a:"1 hour and 35 minutes"},{q:"What is 1000 minus 364? _____",a:"636"},{q:"Circle the larger number:   3.7     3.07",a:"3.7"},{q:"What is 25% of 80? _____",a:"20"},{q:"Write the next two numbers:   5, 10, 20, 40, _____, _____",a:"80, 160"},{q:"A pizza has 8 slices. Tom eats 3. What fraction is left? _____",a:"5/8 (five eighths)"},{q:"What is 6 squared? _____",a:"36"},{q:"Perimeter 24cm, length 8cm. What is the width? _____ cm",a:"4 cm"},{q:"Order smallest to largest:   0.9   0.09   9   0.19\n   _____, _____, _____, _____",a:"0.09, 0.19, 0.9, 9"},{q:"Value of digit 7 in 47,382? _____",a:"7,000 (seven thousand)"},{q:"BONUS: Apples 35p each. How many for 2.50 pounds? _____",a:"7 apples (7 x 35p = 2.45 pounds, 5p change)"}],English:[{q:"Add end punctuation:\n   the dog ran into the garden and barked loudly\n   ___________________________________",a:"The dog ran into the garden and barked loudly."},{q:"Circle the adjective:\n   The tiny spider climbed the tall wall.",a:"tiny, tall"},{q:"Change to past tense:\n   She runs to school.\n   ___________________________________",a:"She ran to school."},{q:"Add prefixes to make opposites:\n   ___happy      ___agree      ___appear",a:"unhappy / disagree / disappear"},{q:"Which word is the noun? Circle it:\n   run     blue     happiness     quickly",a:"happiness"},{q:"Write a sentence using the word although:\n   ___________________________________",a:"Any correct sentence, e.g. Although it was raining, we went to the park."},{q:"Correct this sentence:\n   me and tom went too the park\n   ___________________________________",a:"Tom and I went to the park."},{q:"Write a synonym for happy: _____",a:"e.g. joyful / glad / delighted / pleased"},{q:"Add speech marks:\n   Mum said it is time for dinner.\n   ___________________________________",a:"Mum said, \"It is time for dinner.\""},{q:"Write the plural:\n   child -> _____     mouse -> _____     tooth -> _____",a:"children / mice / teeth"},{q:"Underline the fronted adverbial:\n   After a long day, the children finally went to bed.",a:"After a long day"},{q:"Circle the correct comma use - A or B:\n   A: I like cats, and dogs.\n   B: After school, we went swimming.",a:"B"},{q:"Add the missing apostrophe:\n   The girls coat was bright red.\n   ___________________________________",a:"The girl\'s coat was bright red."},{q:"Statement, question, command or exclamation?\n   What a wonderful day it is!  -> _____",a:"Exclamation"},{q:"BONUS: Rewrite in passive voice:\n   The chef cooked the meal.\n   ___________________________________",a:"The meal was cooked by the chef."}],Science:[{q:"Name the three states of matter:\n   1. ___________   2. ___________   3. ___________",a:"Solid, Liquid, Gas"},{q:"True or False: Plants need sunlight to make food?   [ True / False ]",a:"True - plants use sunlight for photosynthesis"},{q:"What organ pumps blood around your body? _____",a:"The heart"},{q:"Name one material that conducts electricity: _____",a:"e.g. copper / iron / steel / aluminium"},{q:"Explain why ice melts when you hold it:\n   ___________________________________",a:"Heat from your hand transfers to the ice, raising it above 0 degrees C, changing it from solid to liquid."},{q:"Draw and label a simple series circuit.\n   (battery + wire + bulb - use the space below)\n\n\n",a:"Should show: battery connected by wires in a complete loop to a bulb."},{q:"Which planet is closest to the Sun? _____",a:"Mercury"},{q:"Two things a plant needs to grow:\n   1. ___________   2. ___________",a:"Any two of: water, sunlight, warmth, soil/nutrients, carbon dioxide"},{q:"Difference between a herbivore and a carnivore?\n   ___________________________________",a:"A herbivore eats only plants; a carnivore eats only meat."},{q:"What would happen to a puddle on a sunny day? Why?\n   ___________________________________",a:"It would evaporate. Heat from the Sun gives water molecules enough energy to become water vapour."},{q:"Which is reversible? Circle it:\n   Burning wood     Melting ice     Baking a cake",a:"Melting ice (can be refrozen; others are irreversible)"},{q:"Four stages of a butterfly life cycle in order:\n   1. _____  2. _____  3. _____  4. _____",a:"Egg, Caterpillar (larva), Chrysalis (pupa), Butterfly (adult)"},{q:"What force pulls objects towards Earth? _____",a:"Gravity"},{q:"Complete the food chain:\n   grass -> _____ -> fox",a:"Any herbivore, e.g. rabbit / mouse"},{q:"BONUS: Why are astronauts weightless on the ISS?\n   ___________________________________",a:"The ISS and astronauts are both in free fall around Earth at the same rate, creating the sensation of weightlessness."}]};
 
 const STAR_MSGS=["","That was tricky - keep practising!","Getting there, well done!","Good effort!","Great work!","Amazing - star learner!"];
 let selYear=4,selSubj="Maths",selTopic=null,selStars=0;
 let progress=JSON.parse(localStorage.getItem("ws-progress")||"[]");
 
-// ── Welcome / App toggling ────────────────────────────────────────
+// ── Welcome / App display ─────────────────────────────────────────
 function showWelcome(){
   document.getElementById("welcome-screen").classList.add("show");
   document.getElementById("main-app").classList.remove("show");
@@ -379,16 +390,16 @@ function startAiMode(){
 // ── API Key ───────────────────────────────────────────────────────
 function getApiKey(){return localStorage.getItem("ws-api-key")||"";}
 function openModal(){
-  const existing=getApiKey();
+  const has=getApiKey();
   document.getElementById("modal-key-input").value="";
-  document.getElementById("modal-remove-btn").style.display=existing?"block":"none";
-  document.getElementById("modal-title").textContent=existing?"Change API key":"Set up your API key";
-  document.getElementById("modal-steps").style.display=existing?"none":"flex";
-  document.getElementById("modal-sub").textContent=existing
+  document.getElementById("modal-remove-btn").style.display=has?"block":"none";
+  document.getElementById("modal-title").textContent=has?"Change API key":"Set up your API key";
+  document.getElementById("modal-steps").style.display=has?"none":"flex";
+  document.getElementById("modal-sub").textContent=has
     ?"Paste a new key below to replace it, or click Remove to go back to free mode."
     :"Your API key unlocks unlimited AI-generated worksheets. Stored only in your browser.";
   document.getElementById("key-modal").classList.add("open");
-  if(!existing) setTimeout(()=>document.getElementById("modal-key-input").focus(),120);
+  if(!has) setTimeout(()=>document.getElementById("modal-key-input").focus(),120);
 }
 function closeModal(){document.getElementById("key-modal").classList.remove("open");}
 function saveKey(){
@@ -407,13 +418,13 @@ function updateKeyUI(){
   document.getElementById("key-status-btn").className="key-status"+(has?" has-key":"");
   document.getElementById("key-status-label").textContent=has?"API key active":"Add API key";
   const b=document.getElementById("mode-banner");
-  if(!b) return;
+  if(!b)return;
   if(has){
     b.className="mode-banner ai-mode";
-    b.innerHTML="<span><strong>AI mode active</strong> - Every worksheet is freshly generated by Claude AI, unique every time.</span><button class="banner-btn" onclick="openModal()">Change key</button>";
+    b.innerHTML="<span><strong>AI mode active</strong> - Every worksheet is freshly generated by Claude AI, unique every time.</span><button class=\"banner-btn\" onclick=\"openModal()\">Change key</button>";
   } else {
     b.className="mode-banner free-mode";
-    b.innerHTML="<span><strong>Free mode</strong> - Using built-in question banks. Great for practice!</span><button class="banner-btn" onclick="openModal()">Unlock AI mode</button>";
+    b.innerHTML="<span><strong>Free mode</strong> - Using built-in question banks. Great for practice!</span><button class=\"banner-btn\" onclick=\"openModal()\">Unlock AI mode</button>";
   }
 }
 document.getElementById("key-modal").addEventListener("click",e=>{if(e.target===e.currentTarget)closeModal();});
@@ -421,9 +432,9 @@ document.getElementById("key-modal").addEventListener("click",e=>{if(e.target===
 // ── Progress ──────────────────────────────────────────────────────
 function saveProgress(){localStorage.setItem("ws-progress",JSON.stringify(progress));}
 function renderProgress(){
-  const grid=document.getElementById("progress-grid");
-  if(!progress.length){grid.innerHTML="<span class="no-progress">No topics completed yet - tick them off as you go!</span>";return;}
-  grid.innerHTML=progress.map((p,i)=>`<div class="badge"><span>${p.subj[0]} Y${p.year} - ${p.topic.length>20?p.topic.slice(0,18)+"...":p.topic}</span><span class="x" onclick="removeProg(${i})">x</span></div>`).join("");
+  const g=document.getElementById("progress-grid");
+  if(!progress.length){g.innerHTML="<span class=\"no-progress\">No topics completed yet - tick them off as you go!</span>";return;}
+  g.innerHTML=progress.map((p,i)=>`<div class="badge"><span>${p.subj[0]} Y${p.year} - ${p.topic.length>20?p.topic.slice(0,18)+"...":p.topic}</span><span class="x" onclick="removeProg(${i})">x</span></div>`).join("");
 }
 function removeProg(i){progress.splice(i,1);saveProgress();renderProgress();buildTopics();}
 function clearProgress(){if(confirm("Clear all progress?")){progress=[];saveProgress();renderProgress();buildTopics();}}
@@ -431,7 +442,7 @@ function markDone(){
   if(!selTopic)return;
   const key=`${selYear}-${selSubj}-${selTopic}`;
   if(!progress.find(p=>p.key===key)){progress.push({key,year:selYear,subj:selSubj,topic:selTopic});saveProgress();renderProgress();buildTopics();}
-  const btn=document.querySelector("[onclick="markDone()"]");
+  const btn=document.querySelector("[onclick=\"markDone()\"]");
   btn.textContent="Marked!";btn.disabled=true;setTimeout(()=>{btn.textContent="Mark done";btn.disabled=false;},2000);
 }
 
@@ -460,7 +471,7 @@ document.querySelectorAll(".star").forEach(s=>{
 });
 function lightStars(n){document.querySelectorAll(".star").forEach((s,i)=>s.classList.toggle("lit",i<n));}
 
-// ── Generate worksheet ────────────────────────────────────────────
+// ── Generate ──────────────────────────────────────────────────────
 document.getElementById("gen-btn").onclick=generateWorksheet;
 async function generateWorksheet(){
   const apiKey=getApiKey();
@@ -483,20 +494,18 @@ async function generateWorksheet(){
     const sep="=================================================================";
     const lines=[sep,`${selSubj.toUpperCase()} WORKSHEET  -  Year ${selYear}`,`Topic: ${selTopic}`,sep,
       `Name: ${nameStr}           Date: ________________           Score: ___ / ${qCount}`,sep,"",
-      ...picked.map((item,i)=>`${i+1}.  ${item.q}
-`),"",sep,"ANSWER KEY  (For parent or teacher)",sep,"",
+      ...picked.map((item,i)=>`${i+1}.  ${item.q}\n`),"",sep,"ANSWER KEY  (For parent or teacher)",sep,"",
       ...picked.map((item,i)=>`${i+1}.  ${item.a}`),"","",sep,
       "Want unique AI-generated worksheets every time?",sep,
-      "Click "Unlock AI mode" in the green banner above.",
+      "Click \"Unlock AI mode\" in the banner above.",
       "Free API key from Anthropic - takes 2 minutes to set up."];
-    document.getElementById("ws-content").textContent=lines.join("
-");
+    document.getElementById("ws-content").textContent=lines.join("\n");
     return;
   }
 
-  document.getElementById("ws-content").innerHTML="<div class="loading-msg"><span class="spinner"></span>Generating your worksheet - about 10 seconds...</div>";
+  document.getElementById("ws-content").innerHTML="<div class=\"loading-msg\"><span class=\"spinner\"></span>Generating your worksheet - about 10 seconds...</div>";
   const diffMap={gentle:"gentle and introductory, confidence-building",standard:"age-appropriate standard, UK National Curriculum",challenging:"stretching and challenging, above expected level"};
-  const prompt=`You are creating a printable school worksheet for a Year ${selYear} UK pupil (age ${5+selYear}-${6+selYear}).
+  const prompt=`You are creating a printable school worksheet for a Year ${selYear} UK pupil.
 Subject: ${selSubj} | Topic: ${selTopic} | Questions: ${qCount} | Difficulty: ${diffMap[difficulty]}
 
 Format EXACTLY like this - no markdown, no asterisks:
@@ -508,22 +517,17 @@ Topic: ${selTopic}
 Name: ${nameStr}           Date: ________________           Score: ___ / ${qCount}
 =================================================================
 
-Write ${qCount} numbered questions:
-- Vary types: fill-blank, circle answer, true/false, short answer, match pairs, solve and show working, draw and label
-- Progress easier to harder. Use fun real-world contexts (food, animals, sports, space, gaming)
-- Maths: show a worked example before Q1. Mark bonus questions with BONUS:
-- English: include a short 2-3 sentence reading passage for 2-3 comprehension questions
-- Science: include at least one explain why question
+Write ${qCount} numbered questions. Vary types (fill-blank, circle, true/false, short answer, match, solve, draw). Progress easier to harder. Use fun real-world contexts. Maths: show worked example before Q1. English: include a short passage for comprehension. Science: include at least one explain-why question.
 
 =================================================================
 ANSWER KEY  (Parent/teacher - print separately)
 =================================================================
-[All ${qCount} answers numbered. Maths: show working. Brief explanation for tricky answers.]
+[All answers numbered. Show working for Maths. Brief explanations for tricky answers.]
 
 =================================================================
 TIPS FOR PARENTS
 =================================================================
-[3 warm, practical bullet points to help a parent support their child with this specific topic.]`;
+[3 warm, practical bullet points to help a parent support their child with this topic.]`;
 
   try{
     const res=await fetch("https://api.anthropic.com/v1/messages",{
@@ -532,29 +536,33 @@ TIPS FOR PARENTS
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:2200,messages:[{role:"user",content:prompt}]})
     });
     const data=await res.json();
-    if(data.error) throw new Error(data.error.message);
+    if(data.error)throw new Error(data.error.message);
     document.getElementById("ws-content").textContent=data.content?.find(b=>b.type==="text")?.text||"";
   }catch(e){
     document.getElementById("ws-content").innerHTML=`<div class="error-msg">
       <strong>Could not generate worksheet</strong><br><br>${e.message}<br><br>
       - <a href="#" onclick="openModal();return false;">Click here to update your API key</a><br>
       - Check credits at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>
-      - Or use the free built-in questions by removing your key
+      - Or use free built-in questions by removing your key
     </div>`;
   }
 }
 
-// ── Initialise ────────────────────────────────────────────────────
-const modeChosen=localStorage.getItem("ws-mode-chosen");
-const hasKey=!!getApiKey();
-if(modeChosen||hasKey){
-  showApp();
-} else {
-  showWelcome();
-}
-updateKeyUI();
-buildTopics();
-renderProgress();
+// ── Init — THE KEY FIX ────────────────────────────────────────────
+// Show app immediately if: user has an API key OR has previously chosen a mode
+// Only show welcome screen to genuine first-time visitors with no key
+(function init(){
+  const hasKey = !!getApiKey();
+  const choseMode = !!localStorage.getItem("ws-mode-chosen");
+  if(hasKey || choseMode){
+    showApp();
+  } else {
+    showWelcome();
+  }
+  updateKeyUI();
+  buildTopics();
+  renderProgress();
+})();
 </script>
 </body>
 </html>
