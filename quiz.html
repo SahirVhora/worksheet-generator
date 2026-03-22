@@ -390,7 +390,7 @@ const QUIZ_TOPIC_BANKS={
 "Maths|Place value to 10,000":[
   {question:"What is the value of the digit 7 in 47,362?",options:["7","70","700","7,000"],correct:3,explanation:"The digit 7 is in the thousands column, so its value is 7,000.",hint:"Count the columns from the right: ones, tens, hundreds, thousands."},
   {question:"Write the number with 5 thousands, 3 hundreds, 0 tens and 8 ones.",options:["5,038","5,308","5,380","53,008"],correct:1,explanation:"5 thousands = 5,000; 3 hundreds = 300; 0 tens = 0; 8 ones = 8. Total = 5,308.",hint:"Add each part: 5,000 + 300 + 0 + 8."},
-  {question:"What is 1,000 more than 6,492?",options:["6,592","7,492","6,392","7,492"],correct:1,explanation:"Adding 1,000 increases the thousands digit by 1: 6,492 + 1,000 = 7,492.",hint:"Which digit changes when you add 1,000?"},
+  {question:"What is 1,000 more than 6,492?",options:["6,592","7,492","6,392","8,492"],correct:1,explanation:"Adding 1,000 increases the thousands digit by 1: 6,492 + 1,000 = 7,492.",hint:"Which digit changes when you add 1,000?"},
   {question:"Which of these is the largest number?",options:["6,543","5,654","6,534","6,453"],correct:0,explanation:"Compare thousands first: 6,543 and 6,534 both have 6 thousands. Then hundreds: 5 > 5 same, then tens: 4 > 3. So 6,543 is largest.",hint:"Compare digit by digit from the left."},
   {question:"What is the value of 0 in 4,057?",options:["0","100","0 hundreds","1"],correct:2,explanation:"The 0 is in the hundreds column. Its value is 0 hundreds — it acts as a placeholder.",hint:"Look at which column the 0 sits in."}
 ],
@@ -452,7 +452,7 @@ const QUIZ_TOPIC_BANKS={
 ],
 "Maths|Place value and rounding":[
   {question:"What is the value of the 8 in 8,304,076?",options:["8,000","80,000","800,000","8,000,000"],correct:3,explanation:"The 8 is in the millions column, so its value is 8,000,000.",hint:"Count the columns from the right: ones, tens, hundreds, thousands, ten-thousands, hundred-thousands, millions."},
-  {question:"Round 3,749,500 to the nearest million.",options:["3,000,000","4,000,000","3,700,000","3,750,000"],correct:0,explanation:"Look at the hundred-thousands digit: 7 ≥ 5, so we round up... wait — 3,749,500: the digit after millions is 7, so round up to 4,000,000.",hint:"Look at the hundred-thousands digit. Is it 5 or above?"},
+  {question:"Round 3,749,500 to the nearest million.",options:["3,000,000","4,000,000","3,700,000","3,750,000"],correct:1,explanation:"The hundred-thousands digit is 7 (≥ 5), so we round up. 3,749,500 rounds up to 4,000,000.",hint:"Look at the hundred-thousands digit. Is it 5 or above?"},
   {question:"Round 2,450,000 to the nearest million.",options:["2,000,000","3,000,000","2,500,000","2,400,000"],correct:0,explanation:"The hundred-thousands digit is 4 (less than 5), so round down: 2,000,000.",hint:"Check the digit in the hundred-thousands place."},
   {question:"Which number is 100,000 more than 4,899,900?",options:["4,909,900","4,999,900","5,099,900","4,989,900"],correct:1,explanation:"4,899,900 + 100,000 = 4,999,900.",hint:"Adding 100,000 changes the hundred-thousands digit (unless it carries over)."},
   {question:"What is 999,999 + 1?",options:["999,000","1,000,000","1,999,999","990,000"],correct:1,explanation:"999,999 + 1 = 1,000,000 (one million). All digits 'carry over'.",hint:"What happens when you add 1 to a number made entirely of 9s?"}
