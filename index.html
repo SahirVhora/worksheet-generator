@@ -182,11 +182,14 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .footer a{color:var(--purple);text-decoration:none}
 @media(max-width:600px){.container{padding:16px}.subj-wrap{flex-direction:column}.opts{flex-direction:column;align-items:stretch}.header-badge{display:none}}
 @media print{
-  body{background:white;padding:0}.container{box-shadow:none;border-radius:0;padding:20px 28px}
-  .welcome-screen,.main-app .mode-banner,.header,.footer,.star-section,.divider,.ws-header,.progress-section,.opts .gen-btn{display:none!important}
+  body{background:white;padding:0}
+  .container{box-shadow:none;border-radius:0;padding:20px 28px}
+  .welcome-screen,.header,.footer,.mode-switcher,.mode-banner,.quiz-link-bar,
+  .section-label,.pill-row,.subj-wrap,.topic-grid,.opts,.progress-section,
+  .divider,.star-section,.ws-header,.modal-overlay{display:none!important}
   .main-app.show{display:block!important}
   #worksheet-area{display:block!important}
-  #ws-content{border:none;padding:0;background:white;font-size:13pt;line-height:2.1}
+  #ws-content{border:none;padding:0;background:white;line-height:2.1}
 }
 </style>
 </head>
@@ -349,6 +352,15 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
           <option value="gentle">Gentle intro</option>
           <option value="standard" selected>Standard</option>
           <option value="challenging">Challenging</option>
+        </select>
+      </div>
+      <div class="opt-group">
+        <label>Font size</label>
+        <select id="font-size" onchange="applyFontSize(this.value)">
+          <option value="13px">Small</option>
+          <option value="15px" selected>Medium</option>
+          <option value="18px">Large</option>
+          <option value="22px">Extra large</option>
         </select>
       </div>
       <div class="opt-group" style="justify-content:flex-end">
@@ -1942,6 +1954,11 @@ function showApp(){
   document.getElementById("welcome-screen").classList.remove("show");
   document.getElementById("main-app").classList.add("show");
 }
+function applyFontSize(size){
+  const el=document.getElementById("ws-content");
+  if(el) el.style.fontSize=size;
+}
+
 function startFreeMode(){
   localStorage.setItem("ws-mode-chosen","true");
   showApp(); updateKeyUI();
@@ -2185,6 +2202,9 @@ function launchQuiz(){
   updateKeyUI();
   buildTopics();
   renderProgress();
+  // Apply default font size from selector
+  const fsEl=document.getElementById("font-size");
+  if(fsEl) applyFontSize(fsEl.value);
 })();
 </script>
 </body>
