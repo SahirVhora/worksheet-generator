@@ -1,6 +1,6 @@
 # 📄 Free Worksheet Generator
 
-> AI-powered printable worksheets for UK primary school children — Maths, English & Science, Years 1–6.
+> AI-powered printable worksheets and interactive quizzes for UK primary school children — Maths, English, Science, Reading & Vocabulary, Years 1–6.
 > **Completely free. No subscription. No ads. No account needed.**
 
 ---
@@ -9,8 +9,8 @@
 
 - Generates **fresh, unique worksheets** every time using Claude AI
 - Covers the full **UK National Curriculum** for Years 1–6
-- **3 subjects**: Maths, English, Science
-- **8 topics per subject per year** = 144 topic areas total
+- **5 subjects**: Maths, English, Science, Reading, Vocabulary
+- **~494 topic areas** across all 5 subjects and 6 year groups (topics vary per subject/year)
 - **3 difficulty levels**: Gentle intro / Standard / Challenging
 - Choose **10, 15 or 20 questions** per worksheet
 - Personalised with the **child's name** printed on every sheet
@@ -18,6 +18,7 @@
 - **Star rating** so children can reflect after each session
 - **Progress tracker** to tick off completed topics
 - Clean **print layout** — print from browser or save as PDF
+- **Interactive quiz mode** (`quiz.html`) — multiple-choice questions with instant feedback, hints, explanations, and a score summary
 - Works without an API key in **Free Mode** (built-in question banks)
 
 ---
@@ -43,11 +44,11 @@ GitHub Pages hosts your site for free at `https://your-username.github.io/worksh
    - **Visibility**: Select **Public** *(required for free GitHub Pages)*
 4. Click **Create repository**
 
-### Step 3 — Upload the file
+### Step 3 — Upload the files
 
 1. On your new repository page, click **Add file**
 2. Select **Upload files**
-3. Drag and drop the `index.html` file, or click **choose your files** to browse for it
+3. Drag and drop **both** `index.html` and `quiz.html`, or click **choose your files** to browse for them
 4. Scroll down and click **Commit changes**
 
 ### Step 4 — Enable GitHub Pages
@@ -121,7 +122,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 | Costs anything | Never | Less than £0.001 per sheet |
 | Works immediately | Yes | After pasting API key |
 | Question variety | Built-in bank, shuffled randomly | Unique every time |
-| Topics covered | All 144 topics | All 144 topics |
+| Topics covered | All 494 topics | All 494 topics |
 | Personalised with child's name | Yes | Yes |
 | Answer key included | Yes | Yes |
 | Parent tips included | Basic upgrade note | Full AI-generated tips |
@@ -156,7 +157,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 ### The site is not loading after deployment
 
 - Wait 2–3 minutes — GitHub Pages can take a moment to go live the first time
-- Make sure you uploaded `index.html` directly, not a folder containing it
+- Make sure you uploaded both `index.html` and `quiz.html` directly, not a folder containing them
 - Check Settings → Pages shows your URL in a green banner
 - Try opening the URL in a private or incognito browser window
 
@@ -168,7 +169,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 
 ### The app looks broken or unstyled
 
-- Make sure you downloaded the complete `index.html` file
+- Make sure you downloaded both the complete `index.html` and `quiz.html` files
 - Try a hard refresh: hold **Ctrl + Shift + R** (Windows) or **Cmd + Shift + R** (Mac)
 - Try a different browser such as Chrome or Firefox
 
@@ -179,7 +180,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 - [ ] Tricky concept deep-dives (equivalent fractions, fronted adverbials, circuit symbols)
 - [ ] Download directly as a PDF file without printing
 - [ ] Multiple children profiles to track progress separately
-- [ ] Timed quiz and test mode
+- [ ] Timed mode within the interactive quiz
 - [ ] Image-based Science questions with diagrams to label
 - [ ] Welsh curriculum option
 - [ ] Weekly challenge mode
@@ -196,8 +197,8 @@ This tool is completely free to use in classrooms and schools. If you are a teac
 ## 🛠️ Technical notes (for developers)
 
 - **Pure HTML, CSS and JavaScript** — no build tools, no frameworks, no dependencies to install
-- Single `index.html` file — easy to host anywhere, not just GitHub Pages
-- Uses [Claude AI](https://anthropic.com) (`claude-sonnet-4` model) via the Anthropic API
+- Two files: `index.html` (worksheet generator) and `quiz.html` (interactive quiz) — easy to host anywhere, not just GitHub Pages
+- Uses [Claude AI](https://anthropic.com) (`claude-sonnet-4-20250514` model) via the Anthropic API
 - API calls are made directly from the browser using the `anthropic-dangerous-direct-browser-access` header
 - The API key is stored only in browser `localStorage` — never transmitted to any third-party server
 - Google Fonts (Nunito) loaded from CDN — works offline if cached
@@ -206,9 +207,9 @@ This tool is completely free to use in classrooms and schools. If you are a teac
 
 ### How to update the app after deployment
 
-1. Make your changes to `index.html` on your computer
+1. Make your changes to `index.html` and/or `quiz.html` on your computer
 2. Go to your GitHub repository
-3. Click on `index.html` in the file list
+3. Click on the file you want to update (`index.html` or `quiz.html`) in the file list
 4. Click the **pencil / edit icon** in the top right
 5. Select all the existing code and replace it with your updated code
 6. Click **Commit changes**
