@@ -52,29 +52,36 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .welcome-hero{text-align:center;padding:8px 0 24px}
 .welcome-hero h2{font-size:24px;font-weight:900;color:var(--text);margin-bottom:8px}
 .welcome-hero p{font-size:13px;color:var(--muted);max-width:460px;margin:0 auto;line-height:1.7}
-.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:800px){.mode-cards{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.mode-cards{grid-template-columns:1fr}}
 .mode-card{border-radius:14px;padding:20px 18px;border:2px solid var(--border);transition:all .18s;background:var(--bg2)}
 .mode-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
 .mode-card.free-card{border-color:var(--teal-mid);background:var(--teal-light)}
 .mode-card.ai-card{border-color:var(--purple-mid);background:var(--purple-light)}
+.mode-card.kiddo-card{border-color:#E11D48;background:#FFF1F2}
 .mode-card-icon{font-size:28px;margin-bottom:8px}
 .mode-card-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;margin-bottom:8px;color:#fff}
 .free-card .mode-card-tag{background:var(--teal)}
 .ai-card .mode-card-tag{background:var(--purple)}
+.kiddo-card .mode-card-tag{background:#E11D48}
 .mode-card-title{font-size:16px;font-weight:800;margin-bottom:6px}
 .free-card .mode-card-title{color:var(--teal)}
 .ai-card .mode-card-title{color:var(--purple)}
+.kiddo-card .mode-card-title{color:#BE123C}
 .mode-card-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px}
 .mode-card-bullets{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
 .mode-card-bullets li{font-size:12px;color:var(--muted);display:flex;gap:8px;line-height:1.5}
 .free-card .mode-card-bullets li::before{content:"✓";color:var(--teal);font-weight:900;flex-shrink:0}
 .ai-card .mode-card-bullets li::before{content:"✓";color:var(--purple);font-weight:900;flex-shrink:0}
+.kiddo-card .mode-card-bullets li::before{content:"✓";color:#E11D48;font-weight:900;flex-shrink:0}
 .mode-card-btn{width:100%;padding:11px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;border:none;font-family:"Nunito",sans-serif;transition:all .15s}
 .free-card .mode-card-btn{background:var(--teal);color:#fff}
 .free-card .mode-card-btn:hover{background:#085041}
 .ai-card .mode-card-btn{background:var(--purple);color:#fff}
 .ai-card .mode-card-btn:hover{background:var(--purple-dark)}
+.kiddo-card .mode-card-btn{background:#E11D48;color:#fff}
+.kiddo-card .mode-card-btn:hover{background:#9F1239}
 .welcome-note{text-align:center;font-size:11px;color:var(--muted);padding-bottom:8px}
 .welcome-note a{color:var(--purple);text-decoration:none;font-weight:700;cursor:pointer}
 
@@ -268,6 +275,19 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
           <li>Print or save as PDF</li>
         </ul>
         <button class="mode-card-btn" onclick="startFreeMode()">Start for free &#8594;</button>
+      </div>
+      <div class="mode-card kiddo-card">
+        <div class="mode-card-icon">🧒</div>
+        <div class="mode-card-tag">Reception – Year 2</div>
+        <div class="mode-card-title">Kiddo Mode</div>
+        <div class="mode-card-desc">Simpler worksheets for younger children. Bigger text, fewer questions, more pictures. Perfect for Reception to Year 2.</div>
+        <ul class="mode-card-bullets">
+          <li>Early years & KS1 topics</li>
+          <li>Larger font, simpler layout</li>
+          <li>Number bonds, phonics, shapes</li>
+          <li>No setup — instant download</li>
+        </ul>
+        <button class="mode-card-btn" onclick="startKiddoMode()">Start Kiddo Mode &#8594;</button>
       </div>
       <div class="mode-card ai-card">
         <div class="mode-card-icon">&#10024;</div>
@@ -1974,8 +1994,21 @@ function applyFontSize(size){
   if(el) el.style.fontSize=size;
 }
 
+function startKiddoMode(){
+  localStorage.setItem("ws-mode-chosen","true");
+  localStorage.setItem("ws-kiddo-mode","true");
+  showApp(); updateKeyUI();
+  // Pre-select early years: year=1 or 2, smaller question count
+  setTimeout(() => {
+    const yearSelect = document.getElementById('year-select');
+    const countInput = document.getElementById('question-count');
+    if (yearSelect) yearSelect.value = '1';
+    if (countInput) countInput.value = '5';
+  }, 200);
+}
 function startFreeMode(){
   localStorage.setItem("ws-mode-chosen","true");
+  localStorage.removeItem("ws-kiddo-mode");
   showApp(); updateKeyUI();
 }
 function startAiMode(){
