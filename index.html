@@ -10,6 +10,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://sahirvhora.github.io/worksheet-generator/preview.svg">
 <meta name="description" content="Free printable worksheets for UK primary school children. Maths, English and Science for Years 1-6. No account needed."/>
+<meta name="theme-color" content="#7C3AED">
+<link rel="manifest" href="/worksheet-generator/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23534AB7'/%3E%3Crect x='14' y='16' width='36' height='5' rx='2.5' fill='white' opacity='.95'/%3E%3Crect x='14' y='26' width='28' height='5' rx='2.5' fill='white' opacity='.8'/%3E%3Crect x='14' y='36' width='32' height='5' rx='2.5' fill='white' opacity='.8'/%3E%3Crect x='14' y='46' width='20' height='5' rx='2.5' fill='white' opacity='.6'/%3E%3C/svg%3E"/>
@@ -2258,5 +2260,13 @@ function launchQuiz(){
   if(fsEl) applyFontSize(fsEl.value);
 })();
 </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/worksheet-generator/sw.js').catch(err => {
+        console.warn('SW registration failed:', err);
+      });
+    }
+  </script>
 </body>
 </html>

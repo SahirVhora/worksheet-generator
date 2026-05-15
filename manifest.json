@@ -1,0 +1,21 @@
+{
+  "name": "Worksheet Generator",
+  "short_name": "Worksheets",
+  "description": "Free Worksheet Generator — UK Years 1-6, custom worksheets",
+  "start_url": "/worksheet-generator/",
+  "scope": "/worksheet-generator/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fafafa",
+  "theme_color": "#7C3AED",
+  "categories": ["education", "utilities"],
+  "lang": "en-GB",
+  "icons": [
+    {
+      "src": "/worksheet-generator/preview.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
