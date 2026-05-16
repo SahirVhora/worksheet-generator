@@ -406,6 +406,16 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
       </div>
     </div>
 
+    <div class="progress-section">
+      <div class="progress-header">
+        <div class="progress-title">Recent worksheets</div>
+        <button class="clear-btn" onclick="clearWorksheetHistory()">Clear history</button>
+      </div>
+      <div class="progress-grid" id="worksheet-history-grid">
+        <span class="no-progress">Generated worksheets will appear here for parent review.</span>
+      </div>
+    </div>
+
     <div class="divider"></div>
 
     <div id="worksheet-area">
@@ -1985,6 +1995,7 @@ const TOPIC_BANKS={
 const STAR_MSGS=["","That was tricky - keep practising!","Getting there, well done!","Good effort!","Great work!","Amazing - star learner!"];
 let selYear=4,selSubj="Maths",selTopic=null,selStars=0;
 let progress=JSON.parse(localStorage.getItem("ws-progress")||"[]");
+let worksheetHistory=JSON.parse(localStorage.getItem("ws-history")||"[]");
 
 // ── Welcome / App display ─────────────────────────────────────────
 function showWelcome(){
@@ -2073,6 +2084,26 @@ function renderProgress(){
 }
 function removeProg(i){progress.splice(i,1);saveProgress();renderProgress();buildTopics();}
 function clearProgress(){if(confirm("Clear all progress?")){progress=[];saveProgress();renderProgress();buildTopics();}}
+function saveWorksheetHistory(){localStorage.setItem("ws-history",JSON.stringify(worksheetHistory));}
+function addWorksheetHistory(mode,qCount,difficulty,childName){
+  const item={date:new Date().toISOString(),year:selYear,subj:selSubj,topic:selTopic,qCount,difficulty,mode,childName:childName||""};
+  worksheetHistory=[item,...worksheetHistory].slice(0,12);
+  saveWorksheetHistory();
+  renderWorksheetHistory();
+}
+function renderWorksheetHistory(){
+  const g=document.getElementById("worksheet-history-grid");
+  if(!g)return;
+  if(!worksheetHistory.length){g.innerHTML="<span class=\"no-progress\">Generated worksheets will appear here for parent review.</span>";return;}
+  g.innerHTML=worksheetHistory.map((h,i)=>{
+    const d=new Date(h.date);
+    const label=d.toLocaleDateString(undefined,{month:"short",day:"numeric"});
+    return `<div class="badge"><span>${label} - ${h.subj} Y${h.year} - ${h.topic.length>18?h.topic.slice(0,17)+"...":h.topic} (${h.qCount}q)</span><span class="x" onclick="removeWorksheetHistory(${i})">x</span></div>`;
+  }).join("");
+}
+function removeWorksheetHistory(i){worksheetHistory.splice(i,1);saveWorksheetHistory();renderWorksheetHistory();}
+function clearWorksheetHistory(){if(confirm("Clear worksheet history?")){worksheetHistory=[];saveWorksheetHistory();renderWorksheetHistory();}}
+
 function markDone(){
   if(!selTopic)return;
   const key=`${selYear}-${selSubj}-${selTopic}`;
@@ -2135,6 +2166,7 @@ async function generateWorksheet(){
       "Click \"Unlock AI mode\" in the banner above.",
       "Free API key from Anthropic - takes 2 minutes to set up."];
     document.getElementById("ws-content").textContent=lines.join("\n");
+    addWorksheetHistory("free",qCount,difficulty,childName);
     return;
   }
 
@@ -2173,6 +2205,7 @@ TIPS FOR PARENTS
     const data=await res.json();
     if(data.error)throw new Error(data.error.message);
     document.getElementById("ws-content").textContent=data.content?.find(b=>b.type==="text")?.text||"";
+    addWorksheetHistory("ai",qCount,difficulty,childName);
   }catch(e){
     document.getElementById("ws-content").innerHTML=`<div class="error-msg">
       <strong>Could not generate worksheet</strong><br><br>${e.message}<br><br>
@@ -2255,6 +2288,7 @@ function launchQuiz(){
   updateKeyUI();
   buildTopics();
   renderProgress();
+  renderWorksheetHistory();
   // Apply default font size from selector
   const fsEl=document.getElementById("font-size");
   if(fsEl) applyFontSize(fsEl.value);

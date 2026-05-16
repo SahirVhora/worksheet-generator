@@ -229,3 +229,7 @@ Built with love for families and schools everywhere.
 Powered by [Claude AI](https://anthropic.com) by Anthropic.
 
 *"Education should be free to all."*
+
+## Parent Dashboard
+
+The app now keeps a local **Recent worksheets** history alongside completed topics. Parents can see the latest generated worksheets by date, year, subject, topic, question count, and mode. The history is stored only in the browser via `localStorage` and can be cleared at any time.
