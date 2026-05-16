@@ -1,6 +1,6 @@
 # 📄 Free Worksheet Generator
 
-> AI-powered printable worksheets and interactive quizzes for UK primary school children — Maths, English, Science, Reading & Vocabulary, Years 1–6.
+> AI-powered printable worksheets and interactive quizzes for UK primary school children - Maths, English, Science, Reading & Vocabulary, Years 1–6.
 > **Completely free. No subscription. No ads. No account needed.**
 
 ---
@@ -17,8 +17,8 @@
 - Includes **answer key + parent tips** on every worksheet
 - **Star rating** so children can reflect after each session
 - **Progress tracker** to tick off completed topics
-- Clean **print layout** — print from browser or save as PDF
-- **Interactive quiz mode** (`quiz.html`) — multiple-choice questions with instant feedback, hints, explanations, and a score summary
+- Clean **print layout** - print from browser or save as PDF
+- **Interactive quiz mode** (`quiz.html`) - multiple-choice questions with instant feedback, hints, explanations, and a score summary
 - Works without an API key in **Free Mode** (built-in question banks)
 
 ---
@@ -27,14 +27,14 @@
 
 GitHub Pages hosts your site for free at `https://your-username.github.io/worksheet-generator`
 
-### Step 1 — Create a GitHub account (if you don't have one)
+### Step 1 - Create a GitHub account (if you don't have one)
 
 1. Go to [github.com](https://github.com)
 2. Click **Sign up** in the top right
 3. Enter your email, create a password, and choose a username
 4. Verify your email address
 
-### Step 2 — Create a new repository
+### Step 2 - Create a new repository
 
 1. Once logged in, click the **+** icon in the top right corner
 2. Select **New repository**
@@ -44,14 +44,14 @@ GitHub Pages hosts your site for free at `https://your-username.github.io/worksh
    - **Visibility**: Select **Public** *(required for free GitHub Pages)*
 4. Click **Create repository**
 
-### Step 3 — Upload the files
+### Step 3 - Upload the files
 
 1. On your new repository page, click **Add file**
 2. Select **Upload files**
 3. Drag and drop **both** `index.html` and `quiz.html`, or click **choose your files** to browse for them
 4. Scroll down and click **Commit changes**
 
-### Step 4 — Enable GitHub Pages
+### Step 4 - Enable GitHub Pages
 
 1. Click the **Settings** tab at the top of your repository
 2. In the left sidebar, scroll down and click **Pages**
@@ -60,7 +60,7 @@ GitHub Pages hosts your site for free at `https://your-username.github.io/worksh
 5. Leave the folder as **/ (root)**
 6. Click **Save**
 
-### Step 5 — Get your link
+### Step 5 - Get your link
 
 1. Wait **1–2 minutes** for GitHub to build your site
 2. Refresh the Settings → Pages page
@@ -68,7 +68,7 @@ GitHub Pages hosts your site for free at `https://your-username.github.io/worksh
    `https://your-username.github.io/worksheet-generator`
 4. Click **Visit site** to confirm it is working
 
-### Step 6 — Share it!
+### Step 6 - Share it!
 
 Copy your link and share with family, teachers, and friends. Anyone can use it immediately in Free Mode with no setup.
 
@@ -87,7 +87,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 5. Click **+ Create Key**
 6. Give your key a name, for example: `Worksheet Generator`
 7. Click **Create Key**
-8. ⚠️ **Copy the key immediately** — it starts with `sk-ant-` and will only be shown once
+8. ⚠️ **Copy the key immediately** - it starts with `sk-ant-` and will only be shown once
 9. Save it somewhere safe such as your phone Notes app or a password manager
 
 ### Adding your key to the app
@@ -102,7 +102,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 
 - New Anthropic accounts receive **free starter credits** to get going
 - After that, generating one worksheet costs approximately **£0.001** (less than a tenth of a penny)
-- No monthly fees — you only pay for what you use
+- No monthly fees - you only pay for what you use
 - You can set a spending limit at [console.anthropic.com](https://console.anthropic.com) for peace of mind
 
 ### Changing or removing your key
@@ -110,7 +110,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 - Click the **API key active** button in the header at any time
 - Paste a new key to replace the current one
 - Or click **Remove key** to switch back to Free Mode
-- Your key is stored only in **your browser** — it is never sent to anyone except Anthropic's servers
+- Your key is stored only in **your browser** - it is never sent to anyone except Anthropic's servers
 
 ---
 
@@ -156,7 +156,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 
 ### The site is not loading after deployment
 
-- Wait 2–3 minutes — GitHub Pages can take a moment to go live the first time
+- Wait 2–3 minutes - GitHub Pages can take a moment to go live the first time
 - Make sure you uploaded both `index.html` and `quiz.html` directly, not a folder containing them
 - Check Settings → Pages shows your URL in a green banner
 - Try opening the URL in a private or incognito browser window
@@ -175,7 +175,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 
 ---
 
-## 🗺️ Roadmap — coming soon
+## 🗺️ Roadmap - coming soon
 
 - [ ] Tricky concept deep-dives (equivalent fractions, fronted adverbials, circuit symbols)
 - [ ] Download directly as a PDF file without printing
@@ -196,14 +196,14 @@ This tool is completely free to use in classrooms and schools. If you are a teac
 
 ## 🛠️ Technical notes (for developers)
 
-- **Pure HTML, CSS and JavaScript** — no build tools, no frameworks, no dependencies to install
-- Two files: `index.html` (worksheet generator) and `quiz.html` (interactive quiz) — easy to host anywhere, not just GitHub Pages
+- **Pure HTML, CSS and JavaScript** - no build tools, no frameworks, no dependencies to install
+- Two files: `index.html` (worksheet generator) and `quiz.html` (interactive quiz) - easy to host anywhere, not just GitHub Pages
 - Uses [Claude AI](https://anthropic.com) (`claude-sonnet-4-20250514` model) via the Anthropic API
 - API calls are made directly from the browser using the `anthropic-dangerous-direct-browser-access` header
-- The API key is stored only in browser `localStorage` — never transmitted to any third-party server
-- Google Fonts (Nunito) loaded from CDN — works offline if cached
+- The API key is stored only in browser `localStorage` - never transmitted to any third-party server
+- Google Fonts (Nunito) loaded from CDN - works offline if cached
 - Dark mode supported automatically via `prefers-color-scheme` media query
-- Print stylesheet built in — no extra tools needed for clean PDF export
+- Print stylesheet built in - no extra tools needed for clean PDF export
 
 ### How to update the app after deployment
 
@@ -219,7 +219,7 @@ This tool is completely free to use in classrooms and schools. If you are a teac
 
 ## 📄 Licence
 
-MIT Licence — free to use, modify, and share for any purpose.
+MIT Licence - free to use, modify, and share for any purpose.
 
 ---
 

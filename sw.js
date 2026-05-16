@@ -1,4 +1,4 @@
-// Worksheet Generator — Service Worker
+// Worksheet Generator - Service Worker
 // Cache-first strategy for full offline support
 
 const CACHE_NAME = 'worksheet-generator-v1';
@@ -40,14 +40,14 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith('http')) return;
 
-  // Skip Anthropic API calls — always go to network
+  // Skip Anthropic API calls - always go to network
   if (event.request.url.includes('api.anthropic.com')) {
     event.respondWith(fetch(event.request));
     return;
   }
 
-  // Skip Google Fonts — let them cache via their own SW
-  if (event.request.url.includes('fonts.googleapis.com') || 
+  // Skip Google Fonts - let them cache via their own SW
+  if (event.request.url.includes('fonts.googleapis.com') ||
       event.request.url.includes('fonts.gstatic.com')) {
     event.respondWith(fetch(event.request));
     return;
