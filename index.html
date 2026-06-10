@@ -194,6 +194,8 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .star:hover,.star.lit{opacity:1;transform:scale(1.12)}
 #star-msg{font-size:12px;color:var(--muted);font-style:italic}
 #ws-content{background:var(--bg2);border-radius:var(--radius);padding:20px 24px;border:1px solid var(--border);font-size:14px;line-height:2;color:var(--text);white-space:pre-wrap;font-family:"Nunito",sans-serif;min-height:200px}
+.answer-sheet{margin-top:18px;padding-top:14px;border-top:2px dashed var(--border)}
+.marking-guide{margin-top:14px;padding:12px 14px;border-radius:8px;background:var(--amber-light);color:var(--amber);font-size:12px;line-height:1.7;white-space:normal}
 .loading-msg{text-align:center;padding:40px;color:var(--muted)}
 .spinner{display:inline-block;width:18px;height:18px;border:2.5px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -211,6 +213,8 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
   .main-app.show{display:block!important}
   #worksheet-area{display:block!important}
   #ws-content{border:none;padding:0;background:white;line-height:2.1}
+  .answer-sheet{break-before:page;border-top:none}
+  .marking-guide{border:1px solid #ddd;background:white;color:#333}
 }
 </style>
 </head>
@@ -383,9 +387,9 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
       <div class="opt-group">
         <label>Difficulty</label>
         <select id="difficulty">
-          <option value="gentle">Gentle intro</option>
-          <option value="standard" selected>Standard</option>
-          <option value="challenging">Challenging</option>
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
         </select>
       </div>
       <div class="opt-group">
@@ -2162,25 +2166,28 @@ async function generateWorksheet(){
   if(!apiKey){
     const topicKey=`${selSubj}|${selTopic}`;
     const bank=TOPIC_BANKS[topicKey]||FREE_BANKS[selSubj]||FREE_BANKS.Maths;
+    const difficultyPlan={
+      easy:{label:"Easy",note:"Start with questions 1 to 5 together, then let your child try the rest."},
+      medium:{label:"Medium",note:"Let your child attempt independently, then review any missed method steps."},
+      hard:{label:"Hard",note:"Expect some challenge. Award marks for method, working and clear explanations."}
+    }[difficulty]||{label:difficulty,note:"Review answers together and praise effort."};
     const shuffled=[...bank].sort(()=>Math.random()-.5);
     const picked=shuffled.slice(0,Math.min(qCount,shuffled.length));
     const sep="=================================================================";
-    const lines=[sep,`${selSubj.toUpperCase()} WORKSHEET  -  Year ${selYear}`,`Topic: ${selTopic}`,sep,
-      `Name: ${nameStr}           Date: ________________           Score: ___ / ${qCount}`,sep,"",
-      ...picked.map((item,i)=>`${i+1}.  ${item.q}\n`),"",sep,"ANSWER KEY  (For parent or teacher)",sep,"",
-      ...picked.map((item,i)=>`${i+1}.  ${item.a}`),"","",sep,
-      "Want unique AI-generated worksheets every time?",sep,
-      "Click \"Unlock AI mode\" in the banner above.",
-      "Free API key from Anthropic - takes 2 minutes to set up."];
-    document.getElementById("ws-content").textContent=lines.join("\n");
+    const questionLines=[sep,`${selSubj.toUpperCase()} WORKSHEET  -  Year ${selYear}`,`Topic: ${selTopic}`,`Difficulty: ${difficultyPlan.label}`,sep,
+      `Name: ${nameStr}           Date: ________________           Score: ___ / ${picked.length}`,sep,"",
+      ...picked.map((item,i)=>`${i+1}.  ${item.q}\n`)];
+    const answerLines=["",sep,"ANSWER SHEET",sep,"",...picked.map((item,i)=>`${i+1}.  ${item.a}`)];
+    const guideLines=["Parent marking guide:",`- Award 1 mark per correct answer. Total: ${picked.length} marks.`,"- Give half credit where the method is correct but the final answer has a small slip.",`- ${difficultyPlan.note}`,"- Revisit any topic with fewer than 70 percent correct before moving on."];
+    document.getElementById("ws-content").innerHTML=`<div>${questionLines.join("\n")}</div><div class="answer-sheet">${answerLines.join("\n")}</div><div class="marking-guide">${guideLines.join("<br>")}</div>`;
     addWorksheetHistory("free",qCount,difficulty,childName);
     return;
   }
 
   document.getElementById("ws-content").innerHTML="<div class=\"loading-msg\"><span class=\"spinner\"></span>Generating your worksheet - about 10 seconds...</div>";
-  const diffMap={gentle:"gentle and introductory, confidence-building",standard:"age-appropriate standard, UK National Curriculum",challenging:"stretching and challenging, above expected level"};
+  const diffMap={easy:"easy confidence-building practice with smaller numbers and clear scaffolding",medium:"age-appropriate medium practice aligned to the UK National Curriculum",hard:"hard stretch practice with multi-step questions and reasoning"};
   const prompt=`You are creating a printable school worksheet for a Year ${selYear} UK pupil.
-Subject: ${selSubj} | Topic: ${selTopic} | Questions: ${qCount} | Difficulty: ${diffMap[difficulty]}
+Subject: ${selSubj} | Topic: ${selTopic} | Questions: ${qCount} | Difficulty: ${diffMap[difficulty] || diffMap.medium}
 
 Format EXACTLY like this - no markdown, no asterisks:
 
@@ -2194,14 +2201,14 @@ Name: ${nameStr}           Date: ________________           Score: ___ / ${qCoun
 Write ${qCount} numbered questions. Vary types (fill-blank, circle, true/false, short answer, match, solve, draw). Progress easier to harder. Use fun real-world contexts. Maths: show worked example before Q1. English: include a short passage for comprehension. Science: include at least one explain-why question.
 
 =================================================================
-ANSWER KEY  (Parent/teacher - print separately)
+ANSWER SHEET  (Parent/teacher - print separately)
 =================================================================
 [All answers numbered. Show working for Maths. Brief explanations for tricky answers.]
 
 =================================================================
 TIPS FOR PARENTS
 =================================================================
-[3 warm, practical bullet points to help a parent support their child with this topic.]`;
+[3 warm, practical bullet points to help a parent support their child with this topic. Include a simple marking guide with total marks, half-credit advice and what to review next.]`;
 
   try{
     const res=await fetch("https://api.anthropic.com/v1/messages",{
