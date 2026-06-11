@@ -52,3 +52,17 @@ Security updates are released as patch versions. Subscribe to releases to stay i
 ## License
 
 This security policy is part of the project's MIT license.
+
+Worksheet Generator is a browser-only app. If AI mode is enabled, requests are sent directly from the browser to Anthropic using the user's own API key.
+
+## API Keys
+
+- Do not hard-code Anthropic API keys in `index.html`, `quiz.html`, screenshots, issues, or pull requests.
+- Browser `localStorage` is convenient for personal use, but it is not a secure shared-device secret store.
+- Rotate any key that is accidentally exposed.
+
+## Child Privacy
+
+- Avoid entering children's full names, school names, addresses, or other identifying details.
+- Review AI-generated worksheets before using them with children or sharing them publicly.
+- Free Mode is the safest option for shared devices because it does not require an API key.
