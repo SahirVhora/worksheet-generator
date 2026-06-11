@@ -1,6 +1,6 @@
 # 📄 Free Worksheet Generator
 
-> AI-powered printable worksheets and interactive quizzes for UK primary school children - Maths, English, Science, Reading & Vocabulary, Years 1–6.
+> AI-powered printable worksheets and interactive quizzes for UK primary school children - Maths, English, Science, Reading & Vocabulary, Years 1-6.
 > **Completely free. No subscription. No ads. No account needed.**
 
 ---
@@ -8,7 +8,7 @@
 ## ✨ What it does
 
 - Generates **fresh, unique worksheets** every time using Claude AI
-- Covers the full **UK National Curriculum** for Years 1–6
+- Covers the full **UK National Curriculum** for Years 1-6
 - **5 subjects**: Maths, English, Science, Reading, Vocabulary
 - **~494 topic areas** across all 5 subjects and 6 year groups (topics vary per subject/year)
 - **3 difficulty levels**: Gentle intro / Standard / Challenging
@@ -62,7 +62,7 @@ GitHub Pages hosts your site for free at `https://your-username.github.io/worksh
 
 ### Step 5 - Get your link
 
-1. Wait **1–2 minutes** for GitHub to build your site
+1. Wait **1-2 minutes** for GitHub to build your site
 2. Refresh the Settings → Pages page
 3. You will see a green banner with your URL:
    `https://your-username.github.io/worksheet-generator`
@@ -112,6 +112,12 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 - Or click **Remove key** to switch back to Free Mode
 - Your key is stored only in **your browser** - it is never sent to anyone except Anthropic's servers
 
+### Key safety
+
+- Avoid adding your key on **shared or public computers** (school, library) - anyone using that browser could use your credits
+- If you think a key has been exposed, delete it at [console.anthropic.com](https://console.anthropic.com) and create a new one
+- Set a monthly spending limit in your Anthropic account so a leaked key cannot run up costs
+
 ---
 
 ## 🆓 Free Mode vs AI Mode
@@ -156,7 +162,7 @@ The app works straight away in **Free Mode** without any setup. To unlock **unli
 
 ### The site is not loading after deployment
 
-- Wait 2–3 minutes - GitHub Pages can take a moment to go live the first time
+- Wait 2-3 minutes - GitHub Pages can take a moment to go live the first time
 - Make sure you uploaded both `index.html` and `quiz.html` directly, not a folder containing them
 - Check Settings → Pages shows your URL in a green banner
 - Try opening the URL in a private or incognito browser window
@@ -213,7 +219,7 @@ This tool is completely free to use in classrooms and schools. If you are a teac
 4. Click the **pencil / edit icon** in the top right
 5. Select all the existing code and replace it with your updated code
 6. Click **Commit changes**
-7. GitHub Pages redeploys automatically within 1–2 minutes
+7. GitHub Pages redeploys automatically within 1-2 minutes
 
 ---
 
@@ -233,3 +239,13 @@ Powered by [Claude AI](https://anthropic.com) by Anthropic.
 ## Parent Dashboard
 
 The app now keeps a local **Recent worksheets** history alongside completed topics. Parents can see the latest generated worksheets by date, year, subject, topic, question count, and mode. The history is stored only in the browser via `localStorage` and can be cleared at any time.
+
+---
+
+## More free learning tools
+
+- [StarLearn](https://sahirvhora.github.io/starlearn/) - Free UK primary learning platform - Years 4-6, 494 topics
+- [Year 4 Prep](https://sahirvhora.github.io/year4-prep/) - Free Year 4 SATs practice papers - 36 PDFs, updated weekly
+- [PassMate UK](https://sahirvhora.github.io/passmate-uk/) - Free UK car theory test practice - 304 questions, works offline
+- [11+ Prep](https://sahirvhora.github.io/11plus-prep/) - Free 11+ exam practice - region-specific papers
+- [Nobel Explorer](https://sahirvhora.github.io/nobel-explorer/) - Explore 1,026 Nobel laureates - search, timeline, map, quiz
