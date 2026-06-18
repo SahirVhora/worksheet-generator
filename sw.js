@@ -1,12 +1,13 @@
 // Worksheet Generator - Service Worker
 // Cache-first strategy for full offline support
 
-const CACHE_NAME = 'worksheet-generator-v1';
+const CACHE_NAME = 'worksheet-generator-v2';
 
 const STATIC_ASSETS = [
   '/worksheet-generator/',
   '/worksheet-generator/index.html',
   '/worksheet-generator/quiz.html',
+  '/worksheet-generator/quality-loop.js',
   '/worksheet-generator/preview.svg',
   '/worksheet-generator/manifest.json'
 ];

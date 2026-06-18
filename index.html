@@ -470,6 +470,7 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 <script src="data/curriculum.js"></script>
 <script src="data/free-banks.js"></script>
 <script src="data/topic-banks.js"></script>
+<script src="quality-loop.js"></script>
 <script>
 const STAR_MSGS=["","That was tricky - keep practising!","Getting there, well done!","Good effort!","Great work!","Amazing - star learner!"];
 let selYear=4,selSubj="Maths",selTopic=null,selStars=0;
@@ -679,14 +680,30 @@ TIPS FOR PARENTS
 [3 warm, practical bullet points to help a parent support their child with this topic. Include a simple marking guide with total marks, half-credit advice and what to review next.]`;
 
   try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:2200,messages:[{role:"user",content:prompt}]})
-    });
-    const data=await res.json();
-    if(data.error)throw new Error(data.error.message);
-    document.getElementById("ws-content").textContent=data.content?.find(b=>b.type==="text")?.text||"";
+    let worksheetText="";
+    let feedback="";
+    const maxAttempts=3;
+    for(let attempt=1;attempt<=maxAttempts;attempt++){
+      if(attempt>1){
+        document.getElementById("ws-content").innerHTML=`<div class="loading-msg"><span class="spinner"></span>Improving worksheet quality - attempt ${attempt} of ${maxAttempts}...</div>`;
+      }
+      const requestPrompt=feedback?`${prompt}\n\n${feedback}`:prompt;
+      const res=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+        body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:2200,messages:[{role:"user",content:requestPrompt}]})
+      });
+      const data=await res.json();
+      if(data.error)throw new Error(data.error.message);
+      worksheetText=data.content?.find(b=>b.type==="text")?.text||"";
+      const quality=WorksheetQuality.validateWorksheet(worksheetText,{expectedCount:qCount,topic:selTopic});
+      if(quality.ok)break;
+      feedback=WorksheetQuality.retryInstruction(quality.errors);
+      if(attempt===maxAttempts){
+        throw new Error(`The generated worksheet did not pass quality checks: ${quality.errors.join(" ")}`);
+      }
+    }
+    document.getElementById("ws-content").textContent=worksheetText;
     addWorksheetHistory("ai",qCount,difficulty,childName);
   }catch(e){
     document.getElementById("ws-content").innerHTML=`<div class="error-msg">

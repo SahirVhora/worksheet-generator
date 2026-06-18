@@ -20,6 +20,7 @@
 - Clean **print layout** - print from browser or save as PDF
 - **Interactive quiz mode** (`quiz.html`) - multiple-choice questions with instant feedback, hints, explanations, and a score summary
 - Works without an API key in **Free Mode** (built-in question banks)
+- AI responses pass a bounded **quality-improvement loop** that validates structure, counts, answers, and duplicates before display
 
 ---
 
