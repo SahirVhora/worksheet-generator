@@ -3876,14 +3876,15 @@ let questions=[],currentQ=0,answers=[],score=0;
 let quizParams={};
 
 // ── API Key ───────────────────────────────────────────────────────
-function getApiKey(){return localStorage.getItem("ws-api-key")||"";}
+localStorage.removeItem("ws-api-key"); // Purge keys saved by older releases.
+function getApiKey(){return sessionStorage.getItem("ws-api-key")||"";}
 function openModal(){
   const has=getApiKey();
   document.getElementById("modal-key-input").value="";
   document.getElementById("modal-remove-btn").style.display=has?"block":"none";
   document.getElementById("modal-title").textContent=has?"Change API key":"Set up your API key";
   document.getElementById("modal-steps").style.display=has?"none":"flex";
-  document.getElementById("modal-sub").textContent=has?"Paste a new key below, or remove it.":"Your free API key powers unique quiz questions every time. Stored only in your browser.";
+  document.getElementById("modal-sub").textContent=has?"Paste a new key below, or remove it.":"Your free API key powers unique quiz questions every time. Kept only for this browser tab session.";
   document.getElementById("key-modal").classList.add("open");
   if(!has) setTimeout(()=>document.getElementById("modal-key-input").focus(),100);
 }
@@ -3892,10 +3893,10 @@ function saveKey(){
   const v=document.getElementById("modal-key-input").value.trim();
   if(!v){alert("Please paste your API key.");return;}
   if(!v.startsWith("sk-ant-")){alert("API keys start with sk-ant-");return;}
-  localStorage.setItem("ws-api-key",v);closeModal();updateKeyUI();
+  sessionStorage.setItem("ws-api-key",v);closeModal();updateKeyUI();
 }
 function removeKey(){
-  if(confirm("Remove your API key?")){localStorage.removeItem("ws-api-key");closeModal();updateKeyUI();}
+  if(confirm("Remove your API key?")){sessionStorage.removeItem("ws-api-key");closeModal();updateKeyUI();}
 }
 function updateKeyUI(){
   const has=!!getApiKey();

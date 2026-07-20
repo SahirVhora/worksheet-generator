@@ -513,7 +513,8 @@ function startAiMode(){
 }
 
 // ── API Key ───────────────────────────────────────────────────────
-function getApiKey(){return localStorage.getItem("ws-api-key")||"";}
+localStorage.removeItem("ws-api-key"); // Purge keys saved by older releases.
+function getApiKey(){return sessionStorage.getItem("ws-api-key")||"";}
 function openModal(){
   const has=getApiKey();
   document.getElementById("modal-key-input").value="";
@@ -522,7 +523,7 @@ function openModal(){
   document.getElementById("modal-steps").style.display=has?"none":"flex";
   document.getElementById("modal-sub").textContent=has
     ?"Paste a new key below to replace it, or click Remove to go back to free mode."
-    :"Your API key unlocks unlimited AI-generated worksheets. Stored only in your browser.";
+    :"Your API key unlocks unlimited AI-generated worksheets. Kept only for this browser tab session.";
   document.getElementById("key-modal").classList.add("open");
   if(!has) setTimeout(()=>document.getElementById("modal-key-input").focus(),120);
 }
@@ -531,11 +532,11 @@ function saveKey(){
   const v=document.getElementById("modal-key-input").value.trim();
   if(!v){alert("Please paste your API key.");return;}
   if(!v.startsWith("sk-ant-")){alert("That does not look right - Anthropic API keys start with sk-ant-");return;}
-  localStorage.setItem("ws-api-key",v); closeModal(); updateKeyUI();
+  sessionStorage.setItem("ws-api-key",v); closeModal(); updateKeyUI();
 }
 function removeKey(){
   if(confirm("Remove your API key? The app will switch to free mode.")){
-    localStorage.removeItem("ws-api-key"); closeModal(); updateKeyUI();
+    sessionStorage.removeItem("ws-api-key"); closeModal(); updateKeyUI();
   }
 }
 function updateKeyUI(){

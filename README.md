@@ -206,7 +206,7 @@ This tool is completely free to use in classrooms and schools. If you are a teac
 - Two files: `index.html` (worksheet generator) and `quiz.html` (interactive quiz) - easy to host anywhere, not just GitHub Pages
 - Uses [Claude AI](https://anthropic.com) (`claude-sonnet-4-20250514` model) via the Anthropic API
 - API calls are made directly from the browser using the `anthropic-dangerous-direct-browser-access` header
-- The API key is stored only in browser `localStorage` - never transmitted to any third-party server
+- The API key is kept only in browser `sessionStorage` for the current tab session and is cleared when the tab is closed - never transmitted to any third-party server
 - Google Fonts (Nunito) loaded from CDN - works offline if cached
 - Dark mode supported automatically via `prefers-color-scheme` media query
 - Print stylesheet built in - no extra tools needed for clean PDF export
