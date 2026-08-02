@@ -184,6 +184,9 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 .ws-meta{font-size:11px;color:var(--muted);margin-top:2px;font-weight:600}
 .btn-row{display:flex;gap:7px;flex-wrap:wrap}
 .action-btn{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--bg2);color:var(--muted);transition:all .15s;font-family:"Nunito",sans-serif}
+.fab-print{position:fixed;bottom:max(24px,env(safe-area-inset-bottom) + 12px);right:max(24px,env(safe-area-inset-right) + 12px);z-index:50;display:none;align-items:center;gap:8px;padding:14px 20px;border-radius:50px;border:none;background:var(--purple);color:#fff;font-size:14px;font-weight:800;box-shadow:0 6px 20px rgba(83,74,183,.35);cursor:pointer;font-family:"Nunito",sans-serif;transition:transform .15s,box-shadow .15s}
+.fab-print:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(83,74,183,.45)}
+.fab-print.show{display:flex}
 .action-btn:hover{border-color:var(--muted);color:var(--text)}
 .action-btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
 .action-btn.primary:hover{background:var(--purple-dark)}
@@ -429,6 +432,8 @@ body{font-family:"Nunito",sans-serif;background:var(--bg2);color:var(--text);min
 
     <div class="divider"></div>
 
+    <button class="fab-print" id="fab-print" data-testid="print-fab" onclick="window.print()" aria-label="Print worksheet">🖨️ Print</button>
+
     <div id="worksheet-area">
       <div class="ws-header">
         <div>
@@ -480,6 +485,7 @@ let worksheetHistory=JSON.parse(localStorage.getItem("ws-history")||"[]");
 function showWelcome(){
   document.getElementById("welcome-screen").classList.add("show");
   document.getElementById("main-app").classList.remove("show");
+  document.getElementById("fab-print").classList.remove("show");
 }
 function showApp(){
   document.getElementById("welcome-screen").classList.remove("show");
@@ -627,6 +633,7 @@ async function generateWorksheet(){
   const nameStr=childName||"__________________";
 
   document.getElementById("worksheet-area").style.display="block";
+  document.getElementById("fab-print").classList.add("show");
   document.getElementById("ws-title").textContent=`${selSubj} - ${selTopic} - Year ${selYear}`;
   document.getElementById("ws-meta").textContent=`${qCount} questions - ${difficulty}${childName?" - "+childName:""}`;
   selStars=0;lightStars(0);document.getElementById("star-msg").textContent="";
