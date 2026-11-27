@@ -21,3 +21,7 @@ jobs:
           test -f index.html
           test -f quiz.html
           test -f README.md
+          test -f quality-loop.js
+
+      - name: Test worksheet quality loop
+        run: node --test tests/quality-loop.test.js
